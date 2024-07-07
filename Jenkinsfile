@@ -1,6 +1,14 @@
 pipeline {
     agent any
     stages {
+         stage('Test Docker') {
+            agent {
+                docker { image 'aviv123/fluentai' }
+            }
+            steps {
+                sh 'docker run --rm aviv123/fluentai echo "Hello from Docker"'
+            }
+        }
         stage('Checkout') {
             agent {
                 docker { image 'aviv123/fluentai' }
