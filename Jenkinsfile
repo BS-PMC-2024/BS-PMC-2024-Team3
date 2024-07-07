@@ -1,36 +1,37 @@
 pipeline {
     agent any
     tools {
-        nodejs "nodejs"
+        // Ensure that this tool is correctly configured in Jenkins
+        // nodejs "nodejs" (Comment this out if NodeJS is not configured as a tool in your Jenkins)
     }
     stages {
         stage('Checkout') {
-            docker {
-                image 'aviv123/fluentai'
+            agent {
+                docker { image 'aviv123/fluentai' }
             }
             steps {
-                git branch: 'main', credentialsId: '1', url: 'https://github.com/BS-PMC-2024/BS-PMC-2024-Team3'
+                git branch: 'main', credentialsId: '1', url: 'https://github.com/BS-PMC-2024/BS-PMC-2024-Team3.git'
             }
         }
         stage('Install Dependencies') {
-            docker {
-                image 'aviv123/fluentai'
+            agent {
+                docker { image 'aviv123/fluentai' }
             }
             steps {
                 sh 'npm install'
             }
         }
         stage('Build') {
-            docker {
-                image 'aviv123/fluentai'
+            agent {
+                docker { image 'aviv123/fluentai' }
             }
             steps {
                 sh 'npm run build'
             }
         }
         stage('Test') {
-            docker {
-                image 'aviv123/fluentai'
+            agent {
+                docker { image 'aviv123/fluentai' }
             }
             steps {
                 sh 'npm test'
@@ -40,9 +41,8 @@ pipeline {
 
     post {
         always {
-            junit '/reports/junit//.xml'
-            archiveArtifacts artifacts: '**/', allowEmptyArchive: true
-            archiveArtifacts artifacts: 'reports/junit/*/', allowEmptyArchive: true
+            junit '**/reports/junit/*.xml'
+            archiveArtifacts artifacts: '**/*', allowEmptyArchive: true
         }
     }
 }
