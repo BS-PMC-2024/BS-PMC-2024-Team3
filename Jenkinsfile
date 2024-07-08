@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Checkout') {
             steps {
-                git branch: 'main', credentialsId: '1', url: 'https://github.com/BS-PMC-2024/BS-PMC-2024-Team3.git'
+                git branch: 'test', credentialsId: '1', url: 'https://github.com/BS-PMC-2024/BS-PMC-2024-Team3.git'
             }
         }
         stage('Install Dependencies') {
