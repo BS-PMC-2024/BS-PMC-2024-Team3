@@ -27,6 +27,7 @@ pipeline {
                 docker { image 'node:18-alpine' }
             }
             steps {
+                sh 'mkdir -p reports/junit'
                 sh 'npm test'
             }
         }
@@ -34,7 +35,7 @@ pipeline {
     post {
         always {
             junit 'reports/junit/js-test-results.xml'
-            archiveArtifacts artifacts: '**/*', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'reports/junit/*', allowEmptyArchive: true
             cleanWs()
         }
     }
