@@ -33,7 +33,7 @@ pipeline {
     }
     post {
         always {
-            junit '**/reports/junit/*.xml'
+            junit 'reports/junit/js-test-results.xml'
             archiveArtifacts artifacts: '**/*', allowEmptyArchive: true
             cleanWs()
         }
