@@ -1,25 +1,22 @@
 pipeline {
     agent any
     stages {
-         stage('Test Docker') {
+        stage('Test Docker') {
             agent {
-                docker { image 'aviv123/fluentai' }
+                docker { image 'aviv123/fluent_test' }
             }
             steps {
-                sh 'docker run --rm aviv123/fluentai echo "Hello from Docker"'
+                sh 'echo "Hello from Docker"'
             }
         }
         stage('Checkout') {
-            agent {
-                docker { image 'aviv123/fluentai' }
-            }
             steps {
                 git branch: 'main', credentialsId: '1', url: 'https://github.com/BS-PMC-2024/BS-PMC-2024-Team3.git'
             }
         }
         stage('Install Dependencies') {
             agent {
-                docker { image 'aviv123/fluentai' }
+                docker { image 'node:18-alpine' }
             }
             steps {
                 sh 'npm install'
@@ -27,7 +24,7 @@ pipeline {
         }
         stage('Build') {
             agent {
-                docker { image 'aviv123/fluentai' }
+                docker { image 'node:18-alpine' }
             }
             steps {
                 sh 'npm run build'
@@ -35,18 +32,18 @@ pipeline {
         }
         stage('Test') {
             agent {
-                docker { image 'aviv123/fluentai' }
+                docker { image 'node:18-alpine' }
             }
             steps {
                 sh 'npm test'
             }
         }
     }
-
     post {
         always {
             junit '**/reports/junit/*.xml'
             archiveArtifacts artifacts: '**/*', allowEmptyArchive: true
+            cleanWs()
         }
     }
 }

@@ -1,23 +1,24 @@
-#Use the official Node.js image
-FROM node:16
+# Use the official Node.js 18 image as the base image
+FROM node:18-alpine
 
-#Set the Node environment to development
-ENV NODE_ENV=development
-
-#Create and changeto the app directory
+# Set the working directory
 WORKDIR /app
 
-#Copy application dependency manifests to the container image.
-COPY package*.json ./
+# Copy the package.json and package-lock.json files
+COPY package.json ./
+COPY package-lock.json ./
 
-#Install dependencies
+# Install dependencies
 RUN npm install
 
-#Copy the local code to the container image.
+# Copy the rest of the application code
 COPY . .
 
-#Expose the port the app runs on
-EXPOSE 8080
+# Build the Next.js app
+RUN npm run build
 
-#Run the application
-CMD ["npm", "run", "dev"]
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Start the Next.js app
+CMD ["npm", "start"]
