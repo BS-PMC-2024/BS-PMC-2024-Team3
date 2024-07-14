@@ -55,11 +55,61 @@ const LoginForm = () => {
       headerTitle="התחברות"
       backButtonLabel="אין לך משתמש עדין?"
       backButtonHref="/register"
+      showSocial
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-4" dir="rtl">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>אימייל</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="email@example.com"
+                      type="email"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>סיסמא</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="******"
+                      type="password"
+                    />
+                  </FormControl>
+                  <Button
+                    size="sm"
+                    variant="link"
+                    asChild
+                    className="px-0 font-normal"
+                  >
+                    <Link href="/reset">שכחת את הסיסמא?</Link>
+                  </Button>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormError message={error || urlError} />
           <FormSuccess message={success} />
+          <Button type="submit" className="w-full" disabled={isPending}>
+            התחברות
+          </Button>
         </form>
       </Form>
     </CardWrapper>
