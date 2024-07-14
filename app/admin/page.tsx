@@ -1,3 +1,5 @@
+import AdminOptionsCards from "@/components/admin/AdminOptionsCards";
+
 const AdminPage = () => {
   return (
     <div>
@@ -7,6 +9,7 @@ const AdminPage = () => {
       >
         שלום אדמין,
       </h1>
+      <AdminOptionsCards />
     </div>
   );
 };
