@@ -2,11 +2,7 @@
 import * as z from "zod";
 import { LoginSchema } from "@/schemas";
 import { signIn } from "../auth";
-import {
-  ADMIN_LOGIN_REDIRECT,
-  STUDENT_LOGIN_REDIRECT,
-  TEACHER_LOGIN_REDIRECT,
-} from "../routes";
+import { TEACHER_LOGIN_REDIRECT } from "../routes";
 import { AuthError } from "next-auth";
 import { getUserByEmail } from "@/data/user";
 
@@ -26,14 +22,9 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
   let UrlRedirect;
   switch (existingUser.role) {
-    case "ADMIN":
-      UrlRedirect = ADMIN_LOGIN_REDIRECT;
-      break;
     case "TEACHER":
       UrlRedirect = TEACHER_LOGIN_REDIRECT;
       break;
-    default:
-      UrlRedirect = STUDENT_LOGIN_REDIRECT;
   }
 
   try {
