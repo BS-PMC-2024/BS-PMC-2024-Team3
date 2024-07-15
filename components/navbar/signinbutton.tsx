@@ -26,7 +26,6 @@ const SigninButton: React.FC<SigninButtonProps> = ({ session }) => {
     nameParts && nameParts.length >= 2
       ? nameParts[0][0] + nameParts[1][0]
       : "AA";
-
   const ChevronRotate = () => {
     setOpen(!open);
   };
