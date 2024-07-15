@@ -48,7 +48,11 @@ export const ApproveTeacher = async (id: string) => {
 export const getAllUsers = async () => {
   try {
     const Users = await db.user.findMany({
-      where: { role: "STUDENT" && "TEACHER" },
+      where: {
+        role: {
+          in: ["STUDENT", "TEACHER"],
+        },
+      },
     });
     return Users;
   } catch (error) {

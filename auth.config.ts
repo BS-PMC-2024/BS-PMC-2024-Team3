@@ -6,6 +6,7 @@ import Google from "next-auth/providers/google";
 import { UserRole } from "@prisma/client";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "./lib/db";
+import { getUserByEmail, getUserById } from "./data/user";
 
 export default {
   providers: [

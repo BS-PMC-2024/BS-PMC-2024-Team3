@@ -18,6 +18,7 @@ import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { RadioGroup } from "../ui/radio-group";
+import { Label } from "../ui/label";
 import { getAllTeachersNameAndID } from "@/lib/ServerActions/ServerActions";
 import { Teacher } from "@prisma/client";
 import HashLoader from "react-spinners/HashLoader";
@@ -25,7 +26,6 @@ import { register } from "@/actions/register";
 import { ComboboxDemo } from "./register-combobox";
 import { useRouter } from "next/navigation";
 import { LOGIN_REDIRECT } from "@/routes";
-import { Label } from "../ui/label";
 
 const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -165,6 +165,18 @@ const RegisterForm = () => {
                         />
                         <Label htmlFor="TEACHER" className="mx-1">
                           מורה
+                        </Label>
+                      </div>
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          id="STUDENT"
+                          value="STUDENT"
+                          onChange={() => setRoleSelected("STUDENT")}
+                          checked={roleSelected === "STUDENT"}
+                        />
+                        <Label htmlFor="STUDENT" className="mx-1">
+                          תלמיד
                         </Label>
                       </div>
                     </RadioGroup>
