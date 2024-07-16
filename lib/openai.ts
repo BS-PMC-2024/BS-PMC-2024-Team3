@@ -26,3 +26,9 @@ export const OpenQuestionsRequest = async (LevelChosen: string) => {
   const Result = await generatePrompt(prompt);
   return Result;
 };
+
+export const vocabularyRequest = async (LevelChosen: string) => {
+  const prompt = `Please provide 10 English words at the ${LevelChosen} difficulty level in JSON format. The JSON object should contain two arrays: 'words' for the English words and 'answers' for their Hebrew translations, where each translation corresponds to its respective word.`;
+  const Result = await generatePrompt(prompt);
+  return Result;
+};

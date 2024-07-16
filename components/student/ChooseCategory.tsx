@@ -3,6 +3,7 @@ import { useState } from "react";
 import GrammarContent from "./grammar/grammarContent";
 import OpenQuestionsContent from "./open-questions/openQuestionsContent";
 import SideBarChosen from "./side-bar-chosen";
+import VocabularyContent from "./vocabulary/vocabularyContent";
 
 const ChooseCategory = () => {
   const [categoryChosen, setCategoryChosen] = useState<string>("");
@@ -16,7 +17,7 @@ const ChooseCategory = () => {
       {
         <div className="flex justify-center min-h-screen md:min-h-[500px] mx-2 lg:mx-8 2xl:mx-16 border border-mediumBeige shadow-xl rounded-lg bg-lightBeige">
           <div className="min-h-screen md:min-h-[500px] flex-grow mx-2">
-            {/* {categoryChosen === "vocabulary" && <VocabularyContent />} */}
+            {categoryChosen === "vocabulary" && <VocabularyContent />}
             {categoryChosen === "grammar" && <GrammarContent />}
             {categoryChosen === "openQuestions" && <OpenQuestionsContent />}
           </div>
