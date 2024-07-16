@@ -54,7 +54,6 @@ pipeline {
     }
     post {
         always {
-            agent any
             steps {
                 junit 'reports/junit/js-test-results.xml'
                 archiveArtifacts artifacts: 'reports/junit/*', allowEmptyArchive: true
