@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials-id') // replace with your actual credentials ID
+        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials-id')
         DOCKER_IMAGE = 'tomerel3/fluentai:latest'
     }
     stages {
@@ -54,9 +54,11 @@ pipeline {
     }
     post {
         always {
-            junit 'reports/junit/js-test-results.xml'
-            archiveArtifacts artifacts: 'reports/junit/*', allowEmptyArchive: true
-            cleanWs()
+            node {
+                junit 'reports/junit/js-test-results.xml'
+                archiveArtifacts artifacts: 'reports/junit/*', allowEmptyArchive: true
+                cleanWs()
+            }
         }
     }
 }
