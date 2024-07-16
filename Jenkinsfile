@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS_ID = 'your-dockerhub-credentials-id'
-        DOCKERHUB_REPO = 'your-dockerhub-repo/your-image-name'
+        DOCKERHUB_REPO = 'tomerel3/fluentai:latest'
     }
 
     stages {
