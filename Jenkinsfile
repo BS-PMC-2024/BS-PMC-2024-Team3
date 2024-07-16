@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials-id') // replace with your actual credentials ID
+        DOCKER_IMAGE = 'tomerel3/fluentai:latest'
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -29,6 +33,22 @@ pipeline {
             steps {
                 sh 'mkdir -p reports/junit'
                 sh 'npm test'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build(DOCKER_IMAGE)
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_HUB_CREDENTIALS) {
+                        dockerImage.push()
+                    }
+                }
             }
         }
     }
