@@ -1,9 +1,11 @@
 pipeline {
     agent any
+
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials-id')
-        DOCKER_IMAGE = 'tomerel3/fluentai:latest'
+        DOCKERHUB_CREDENTIALS_ID = 'your-dockerhub-credentials-id'
+        DOCKERHUB_REPO = 'your-dockerhub-repo/your-image-name'
     }
+
     stages {
         stage('Checkout') {
             steps {
@@ -35,18 +37,18 @@ pipeline {
                 sh 'npm test'
             }
         }
-        stage('Build Docker Image') {
+        stage('Docker Build and Push') {
             steps {
                 script {
-                    dockerImage = docker.build(DOCKER_IMAGE)
+                    docker.build(DOCKERHUB_REPO)
                 }
             }
         }
-        stage('Push Docker Image') {
+        stage('Docker Login') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_HUB_CREDENTIALS) {
-                        dockerImage.push()
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS_ID) {
+                        docker.image(DOCKERHUB_REPO).push("${env.BUILD_NUMBER}")
                     }
                 }
             }
@@ -54,11 +56,9 @@ pipeline {
     }
     post {
         always {
-            steps {
-                junit 'reports/junit/js-test-results.xml'
-                archiveArtifacts artifacts: 'reports/junit/*', allowEmptyArchive: true
-                cleanWs()
-            }
+            junit 'reports/junit/js-test-results.xml'
+            archiveArtifacts artifacts: 'reports/junit/*', allowEmptyArchive: true
+            cleanWs()
         }
     }
 }
