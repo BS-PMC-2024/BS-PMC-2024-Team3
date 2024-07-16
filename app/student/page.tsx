@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import StudentOptionsCards from "@/components/student/StudentOptionsCards";
 import WelcomePage from "@/components/welcome/welcome";
 const StudentPage = async () => {
   const session = await auth();
@@ -7,6 +8,7 @@ const StudentPage = async () => {
       <div>
         {session?.user.name && <WelcomePage name={session?.user.name} />}
       </div>
+      <StudentOptionsCards />
     </>
   );
 };
