@@ -1,19 +1,28 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { OpenQuestionsRequest } from "@/lib/openai";
+import { vocabularyRequest } from "@/lib/openai";
+import {
+  easyAnswersVocabulary,
+  hardAnswersVocabulary,
+  mediumAnswersVocabulary,
+} from "@/lib/vocabulary-random";
 import { useState } from "react";
 import HashLoader from "react-spinners/HashLoader";
 
-export default function OpenQuestionsContent() {
+interface VocabularyData {
+  words: string[];
+  answers: string[];
+}
+
+export default function VocabularyContent() {
   const [level, setLevel] = useState<string | null>(null);
+  const [fourAnswersArray, setFourAnswersArray] = useState<string[][]>([]);
   const [response, setResponse] = useState({
-    paragraph: "",
-    question: "",
-    answers: ["1", "2", "3", "4"],
-    correctAnswer: "",
+    words: [],
+    answers: [],
   });
-  const [userAnswer, setUserAnswer] = useState("");
+  const [userAnswer, setUserAnswer] = useState<string>("");
   const [answer, setAnswer] = useState<{
     hasAnswered: boolean;
     isCorrect: boolean;
@@ -25,6 +34,7 @@ export default function OpenQuestionsContent() {
     { name: "Medium", label: "Medium" },
     { name: "Hard", label: "Hard" },
   ];
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const handleLevelChosen = (LevelChosen: string) => {
     setLevel(LevelChosen);
     handleRequest(LevelChosen);
@@ -32,20 +42,42 @@ export default function OpenQuestionsContent() {
 
   const handleRequest = async (LevelChosen: string) => {
     setIsLoading(true);
+    let Result;
     try {
-      const Result = await OpenQuestionsRequest(LevelChosen);
+      Result = await vocabularyRequest(LevelChosen);
       setResponse(Result);
     } catch (error) {
       setError("מצטערים, אך אירעה שגיאה בעת יצירת הבקשה.");
     } finally {
+      handleRandomAnswers(Result);
       setIsLoading(false);
     }
+  };
+
+  const handleRandomAnswers = (Result: VocabularyData) => {
+    let tempFourAnswersArray = Result.words.map((word, index) => {
+      let answersArray =
+        level === "Hard"
+          ? hardAnswersVocabulary()
+          : level === "Medium"
+          ? mediumAnswersVocabulary()
+          : easyAnswersVocabulary();
+
+      let correctIndex = Math.floor(Math.random() * 4);
+      answersArray[correctIndex] = Result.answers[index];
+      return answersArray;
+    });
+
+    setFourAnswersArray(tempFourAnswersArray);
   };
 
   const handleAnswerSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
     const ChosenAnswer = event.target.value;
     setUserAnswer(ChosenAnswer);
-    if (ChosenAnswer == response.correctAnswer) {
+    if (
+      response.answers[currentIndex] ===
+      fourAnswersArray[currentIndex][Number(ChosenAnswer)]
+    ) {
       setAnswer({ hasAnswered: true, isCorrect: true });
     } else {
       setAnswer({ hasAnswered: true, isCorrect: false });
@@ -57,7 +89,13 @@ export default function OpenQuestionsContent() {
     setUserAnswer("");
     setAnswer({ hasAnswered: false, isCorrect: false });
     if (level) {
-      handleRequest(level);
+      if (currentIndex == 9) {
+        setCurrentIndex(0);
+        handleRequest(level);
+      } else {
+        setCurrentIndex(currentIndex + 1);
+        setIsLoading(false);
+      }
     }
   };
 
@@ -67,7 +105,7 @@ export default function OpenQuestionsContent() {
         {!level ? (
           <div className="flex flex-col m-1 sm:m-2 mb-4">
             <div className="text-base sm:text-xl text-black">
-              Hello, Choose your level for open questions please.
+              Hello, choose the vocabulary level please.
             </div>
             <div className="flex flex-col sm:flex-row">
               {Levels.map((level) => (
@@ -96,16 +134,8 @@ export default function OpenQuestionsContent() {
                 {!Error ? (
                   <div className="flex flex-col m-1 sm:m-2 mb-4">
                     <div className="text-xs sm:text-xs md:text-sm text-black">
-                      <span className="text-darkRed font-semibold">
-                        Paragraph:{" "}
-                      </span>
-                      {response.paragraph}
-                    </div>
-                    <div className="text-xs sm:text-xs md:text-sm text-black py-1">
-                      <span className="text-darkRed font-semibold">
-                        Question:{" "}
-                      </span>
-                      {response.question}
+                      <span className="text-darkRed font-semibold">Word: </span>
+                      {response.words[currentIndex]}
                     </div>
                     {!answer.hasAnswered ? (
                       <div className="text-xs sm:text-xs md:text-sm py-2">
@@ -114,28 +144,28 @@ export default function OpenQuestionsContent() {
                         </Label>
                         <div className="mt-1">
                           <form>
-                            {Object.entries(response.answers).map(
-                              ([key, value]) => (
+                            {fourAnswersArray[currentIndex]?.map(
+                              (answer, key) => (
                                 <div className="flex items-center" key={key}>
                                   <label className="text-xs sm:text-xs md:text-sm mb-2">
                                     <input
                                       type="radio"
                                       name="answer"
                                       value={key}
-                                      checked={userAnswer === key}
+                                      checked={userAnswer === key.toString()}
                                       onChange={handleAnswerSubmit}
                                       className="hidden"
                                       id={`custom-radio-${key}`}
                                     />
                                     <span
                                       className={`inline-block w-3 h-3 mr-2 rounded-full border border-black ${
-                                        userAnswer === key
+                                        userAnswer === key.toString()
                                           ? "bg-grayish border-black"
                                           : "bg-lightBeige"
                                       }`}
                                       aria-hidden="true"
                                     ></span>
-                                    {value}
+                                    {answer}
                                   </label>
                                 </div>
                               )
@@ -160,19 +190,22 @@ export default function OpenQuestionsContent() {
                               <span className="text-grayish font-semibold mx-1">
                                 תשובה נכונה:{" "}
                               </span>
-                              {Object.entries(response.answers).map(
-                                ([key, value]) => {
-                                  if (response.correctAnswer === key) {
+                              {fourAnswersArray[currentIndex]?.map(
+                                (answer, key) => {
+                                  if (
+                                    response.answers[currentIndex] === answer
+                                  ) {
                                     return (
                                       <div
                                         className="text-grayish text-center mx-1"
                                         key={key}
                                       >
-                                        {value}
+                                        {answer}
                                       </div>
                                     );
+                                  } else {
+                                    return null;
                                   }
-                                  return null;
                                 }
                               )}
                             </div>
@@ -190,19 +223,22 @@ export default function OpenQuestionsContent() {
                               dir="rtl"
                             >
                               התשובה הנכונה היא :
-                              {Object.entries(response.answers).map(
-                                ([key, value]) => {
-                                  if (response.correctAnswer === key) {
+                              {fourAnswersArray[currentIndex]?.map(
+                                (answer, key) => {
+                                  if (
+                                    response.answers[currentIndex] === answer
+                                  ) {
                                     return (
                                       <div
-                                        className="text-grayish mx-1"
+                                        className="text-grayish text-center mx-1"
                                         key={key}
                                       >
-                                        {value}
+                                        {answer}
                                       </div>
                                     );
+                                  } else {
+                                    return null;
                                   }
-                                  return null;
                                 }
                               )}
                             </div>
