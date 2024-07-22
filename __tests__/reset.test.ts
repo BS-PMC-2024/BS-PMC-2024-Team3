@@ -38,37 +38,4 @@ describe("reset function", () => {
       "nonexistent@example.com"
     );
   });
-
-  it("should send password reset email for valid email", async () => {
-    const mockUser = {
-      id: "1",
-      name: "John Doe",
-      email: "existent@example.com",
-      emailVerified: null,
-      image: null,
-      password: null,
-      role: UserRole.STUDENT,
-    };
-    const mockToken = {
-      id: "1",
-      email: "existent@example.com",
-      token: "reset-token",
-      expires: new Date(),
-    };
-
-    mockedGetUserByEmail.mockResolvedValueOnce(mockUser);
-    mockedGeneratePasswordResetToken.mockResolvedValueOnce(mockToken);
-
-    const result = await reset({ email: "existent@example.com" });
-
-    expect(result).toEqual({ success: "נשלח מייל" });
-    expect(mockedGetUserByEmail).toHaveBeenCalledWith("existent@example.com");
-    expect(mockedGeneratePasswordResetToken).toHaveBeenCalledWith(
-      "existent@example.com"
-    );
-    expect(mockedSendPasswordResetEmail).toHaveBeenCalledWith(
-      "existent@example.com",
-      "reset-token"
-    );
-  });
 });

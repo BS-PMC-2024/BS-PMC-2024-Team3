@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="11" failures="0" errors="0" time="4.591">
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:15:27" time="3.945" tests="1">
-    <testcase classname=" basic test" name=" basic test" time="0.01">
+<testsuites name="jest tests" tests="10" failures="0" errors="0" time="3.484">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:20:48" time="2.33" tests="1">
+    <testcase classname=" basic test" name=" basic test" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="API functions" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:15:27" time="4.026" tests="3">
-    <testcase classname="API functions GrammarRequest should return a mistake and correct question" name="API functions GrammarRequest should return a mistake and correct question" time="0.006">
-    </testcase>
-    <testcase classname="API functions OpenQuestionsRequest should return a paragraph, question, answers, and correctAnswer" name="API functions OpenQuestionsRequest should return a paragraph, question, answers, and correctAnswer" time="0.003">
-    </testcase>
-    <testcase classname="API functions vocabularyRequest should return words and their translations" name="API functions vocabularyRequest should return words and their translations" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="login" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:15:27" time="4.25" tests="3">
+  <testsuite name="login" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:20:48" time="2.383" tests="3">
     <testcase classname="login should login a user successfully and redirect based on role" name="login should login a user successfully and redirect based on role" time="0.004">
     </testcase>
     <testcase classname="login should return error for invalid fields" name="login should return error for invalid fields" time="0.001">
@@ -20,16 +12,22 @@
     <testcase classname="login should return error for non-existing user" name="login should return error for non-existing user" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="register" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:15:27" time="4.308" tests="1">
+  <testsuite name="API functions" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:20:48" time="2.382" tests="3">
+    <testcase classname="API functions GrammarRequest should return a mistake and correct question" name="API functions GrammarRequest should return a mistake and correct question" time="0.003">
+    </testcase>
+    <testcase classname="API functions OpenQuestionsRequest should return a paragraph, question, answers, and correctAnswer" name="API functions OpenQuestionsRequest should return a paragraph, question, answers, and correctAnswer" time="0.001">
+    </testcase>
+    <testcase classname="API functions vocabularyRequest should return words and their translations" name="API functions vocabularyRequest should return words and their translations" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="register" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:20:48" time="2.432" tests="1">
     <testcase classname="register should register a user successfully" name="register should register a user successfully" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="reset function" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:15:27" time="4.402" tests="3">
-    <testcase classname="reset function should return an error for invalid email format" name="reset function should return an error for invalid email format" time="0.004">
+  <testsuite name="reset function" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:20:48" time="3.328" tests="2">
+    <testcase classname="reset function should return an error for invalid email format" name="reset function should return an error for invalid email format" time="0.006">
     </testcase>
-    <testcase classname="reset function should return an error if email does not exist in the system" name="reset function should return an error if email does not exist in the system" time="0">
-    </testcase>
-    <testcase classname="reset function should send password reset email for valid email" name="reset function should send password reset email for valid email" time="0.001">
+    <testcase classname="reset function should return an error if email does not exist in the system" name="reset function should return an error if email does not exist in the system" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>
