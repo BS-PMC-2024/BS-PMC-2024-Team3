@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="10" failures="0" errors="0" time="3.484">
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:20:48" time="2.33" tests="1">
-    <testcase classname=" basic test" name=" basic test" time="0.003">
-    </testcase>
-  </testsuite>
-  <testsuite name="login" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:20:48" time="2.383" tests="3">
+<testsuites name="jest tests" tests="10" failures="0" errors="0" time="3.418">
+  <testsuite name="login" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:30:03" time="2.178" tests="3">
     <testcase classname="login should login a user successfully and redirect based on role" name="login should login a user successfully and redirect based on role" time="0.004">
     </testcase>
-    <testcase classname="login should return error for invalid fields" name="login should return error for invalid fields" time="0.001">
+    <testcase classname="login should return error for invalid fields" name="login should return error for invalid fields" time="0">
     </testcase>
-    <testcase classname="login should return error for non-existing user" name="login should return error for non-existing user" time="0">
+    <testcase classname="login should return error for non-existing user" name="login should return error for non-existing user" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="API functions" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:20:48" time="2.382" tests="3">
+  <testsuite name="register" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:30:03" time="2.244" tests="1">
+    <testcase classname="register should register a user successfully" name="register should register a user successfully" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="API functions" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:30:03" time="2.581" tests="3">
     <testcase classname="API functions GrammarRequest should return a mistake and correct question" name="API functions GrammarRequest should return a mistake and correct question" time="0.003">
     </testcase>
     <testcase classname="API functions OpenQuestionsRequest should return a paragraph, question, answers, and correctAnswer" name="API functions OpenQuestionsRequest should return a paragraph, question, answers, and correctAnswer" time="0.001">
@@ -20,14 +20,14 @@
     <testcase classname="API functions vocabularyRequest should return words and their translations" name="API functions vocabularyRequest should return words and their translations" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="register" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:20:48" time="2.432" tests="1">
-    <testcase classname="register should register a user successfully" name="register should register a user successfully" time="0.004">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:30:03" time="2.585" tests="1">
+    <testcase classname=" basic test" name=" basic test" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="reset function" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:20:48" time="3.328" tests="2">
-    <testcase classname="reset function should return an error for invalid email format" name="reset function should return an error for invalid email format" time="0.006">
+  <testsuite name="reset function" errors="0" failures="0" skipped="0" timestamp="2024-07-22T06:30:03" time="3.269" tests="2">
+    <testcase classname="reset function should return an error for invalid email format" name="reset function should return an error for invalid email format" time="0.003">
     </testcase>
-    <testcase classname="reset function should return an error if email does not exist in the system" name="reset function should return an error if email does not exist in the system" time="0.001">
+    <testcase classname="reset function should return an error if email does not exist in the system" name="reset function should return an error if email does not exist in the system" time="0">
     </testcase>
   </testsuite>
 </testsuites>

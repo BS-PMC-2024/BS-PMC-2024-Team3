@@ -84,13 +84,13 @@
       "^@/(.*)$": "<rootDir>/$1",
       "^next-auth$": "<rootDir>/__mocks__/next-auth.ts"
     },
-    "globals": {
-      "ts-jest": {
-        "tsconfig": "tsconfig.json"
-      }
-    },
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "tsconfig": "tsconfig.json"
+        }
+      ]
     },
     "reporters": [
       "default",
@@ -100,6 +100,9 @@
           "outputDirectory": "./reports/junit"
         }
       ]
+    ],
+    "watchPathIgnorePatterns": [
+      "<rootDir>/.next/"
     ]
   }
 }

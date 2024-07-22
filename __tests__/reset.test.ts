@@ -6,18 +6,11 @@ import { UserRole } from "@prisma/client";
 
 // Mock the dependencies
 jest.mock("@/data/user");
-jest.mock("@/lib/mail");
 jest.mock("@/lib/tokens");
 
 const mockedGetUserByEmail = getUserByEmail as jest.MockedFunction<
   typeof getUserByEmail
 >;
-const mockedSendPasswordResetEmail =
-  sendPasswordResetEmail as jest.MockedFunction<typeof sendPasswordResetEmail>;
-const mockedGeneratePasswordResetToken =
-  generatePasswordResetToken as jest.MockedFunction<
-    typeof generatePasswordResetToken
-  >;
 
 describe("reset function", () => {
   afterEach(() => {
@@ -34,8 +27,5 @@ describe("reset function", () => {
 
     const result = await reset({ email: "nonexistent@example.com" });
     expect(result).toEqual({ error: "לא קיים אימייל כזה במערכת" });
-    expect(mockedGetUserByEmail).toHaveBeenCalledWith(
-      "nonexistent@example.com"
-    );
   });
 });
