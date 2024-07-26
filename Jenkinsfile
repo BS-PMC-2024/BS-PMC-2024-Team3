@@ -2,8 +2,6 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS_ID = 'DOCKER_ID'
-        DOCKERHUB_REPO = 'tomerel3/fluentai:latest'
         RESEND_API_KEY = 'RESEND_API_KEY'
         DATABASE_URL = 'DATABASE_URL'
     }
@@ -49,15 +47,7 @@ pipeline {
                 sh 'npm test'
             }
         }
-        stage('Docker Build and Push') {
-            steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS_ID) {
-                        docker.build(DOCKERHUB_REPO).push("${env.BUILD_NUMBER}")
-                    }
-                }
-            }
-        }
+   
     }
     post {
         always {
