@@ -52,7 +52,7 @@ pipeline {
         stage('Docker Build and Push') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_ID) {
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS_ID) {
                         docker.build(DOCKERHUB_REPO).push("${env.BUILD_NUMBER}")
                     }
                 }
