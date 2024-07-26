@@ -5,6 +5,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS_ID = 'your-dockerhub-credentials-id'
         DOCKERHUB_REPO = 'tomerel3/fluentai:latest'
         RESEND_API_KEY = 're_4kh4Bggp_PqpaSub2aGUVeu1mZucikXtc'
+        DATABASE_URL = credentials('postgresql://FluentAI_owner:W6bPncdGSt9B@ep-patient-shape-a238rly5-pooler.eu-central-1.aws.neon.tech/FluentAI?sslmode=require')
 
     }
 
