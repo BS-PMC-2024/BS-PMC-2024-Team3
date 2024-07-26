@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS_ID = 'your-dockerhub-credentials-id'
         DOCKERHUB_REPO = 'tomerel3/fluentai:latest'
-        RESEND_API_KEY = credentials('RESEND_API_KEY')
+        RESEND_API_KEY = 'RESEND_API_KEY'
         DATABASE_URL = 'postgresql://FluentAI_owner:W6bPncdGSt9B@ep-patient-shape-a238rly5-pooler.eu-central-1.aws.neon.tech/FluentAI?sslmode=require'
     }
 
