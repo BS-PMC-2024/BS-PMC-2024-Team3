@@ -4,6 +4,8 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS_ID = 'your-dockerhub-credentials-id'
         DOCKERHUB_REPO = 'tomerel3/fluentai:latest'
+        RESEND_API_KEY = 're_4kh4Bggp_PqpaSub2aGUVeu1mZucikXtc'
+
     }
 
     stages {
