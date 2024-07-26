@@ -4,9 +4,8 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS_ID = 'your-dockerhub-credentials-id'
         DOCKERHUB_REPO = 'tomerel3/fluentai:latest'
-        RESEND_API_KEY = 're_4kh4Bggp_PqpaSub2aGUVeu1mZucikXtc'
-        DATABASE_URL = 'postgresql://FluentAI_owner:W6bPncdGSt9B@ep-patient-shape-a238rly5-pooler.eu-central-1.aws.neon.tech/FluentAI?sslmode=require'
-
+        RESEND_API_KEY = credentials('RESEND_API_KEY')
+        DATABASE_URL = credentials('DATABASE_URL')
     }
 
     stages {
@@ -17,7 +16,10 @@ pipeline {
         }
         stage('Install Dependencies') {
             agent {
-                docker { image 'node:18-alpine' }
+                docker {
+                    image 'node:18-alpine'
+                    args '-v $HOME/.npm:/root/.npm' // Cache npm dependencies
+                }
             }
             steps {
                 sh 'npm install'
@@ -25,15 +27,22 @@ pipeline {
         }
         stage('Build') {
             agent {
-                docker { image 'node:18-alpine' }
+                docker {
+                    image 'node:18-alpine'
+                    args '-e DATABASE_URL=$DATABASE_URL -e RESEND_API_KEY=$RESEND_API_KEY'
+                }
             }
             steps {
+                sh 'npx prisma generate'
                 sh 'npm run build'
             }
         }
         stage('Test') {
             agent {
-                docker { image 'node:18-alpine' }
+                docker {
+                    image 'node:18-alpine'
+                    args '-e DATABASE_URL=$DATABASE_URL -e RESEND_API_KEY=$RESEND_API_KEY'
+                }
             }
             steps {
                 sh 'mkdir -p reports/junit'
@@ -43,15 +52,8 @@ pipeline {
         stage('Docker Build and Push') {
             steps {
                 script {
-                    docker.build(DOCKERHUB_REPO)
-                }
-            }
-        }
-        stage('Docker Login') {
-            steps {
-                script {
                     docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS_ID) {
-                        docker.image(DOCKERHUB_REPO).push("${env.BUILD_NUMBER}")
+                        docker.build(DOCKERHUB_REPO).push("${env.BUILD_NUMBER}")
                     }
                 }
             }
