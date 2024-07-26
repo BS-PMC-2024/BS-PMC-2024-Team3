@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS_ID = 'your-dockerhub-credentials-id'
+        DOCKERHUB_CREDENTIALS_ID = 'docker-hub-credentials-id'
         DOCKERHUB_REPO = 'tomerel3/fluentai:latest'
         RESEND_API_KEY = 'RESEND_API_KEY'
         DATABASE_URL = 'DATABASE_URL'
