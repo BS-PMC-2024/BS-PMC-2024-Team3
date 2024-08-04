@@ -3,18 +3,18 @@ import UserCard from "../../user/userCard";
 import AddReview from "./AddReview";
 import Loading from "@/components/loading";
 
-interface ContentRatingProps {
-  Content: ContentType | null | undefined;
+interface TeacherReviewProps {
+  teacher: TeacherWithScore | null | undefined;
 }
 
-interface ContentType {
+interface TeacherWithScore {
   id: string;
-  rating: number;
-  teacherId: string;
-  comment?: string | null;
+  name: string | null;
+  image: string | null;
+  score: number | null;
 }
 
-const ContentRating: React.FC<ContentRatingProps> = ({ Content }) => {
+const TeacherReview: React.FC<TeacherReviewProps> = ({ teacher }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   return (
     <>
@@ -25,15 +25,17 @@ const ContentRating: React.FC<ContentRatingProps> = ({ Content }) => {
       ) : (
         <>
           <h1 className="text-xl sm:text-2xl text-grayish" dir="rtl">
-            דירוג התוכן:
+            דירוג מורה
           </h1>
           <div className="flex flex-col items-center justify-center w-full py-4">
+            {teacher?.name && (
+              <UserCard name={teacher?.name} image={teacher?.image} />
+            )}
             <AddReview
-              review={Content?.rating}
-              targetId={Content?.id}
-              comnnetLabel={Content?.comment}
+              review={teacher?.score}
+              targetId={teacher?.id}
               setIsLoading={setIsLoading}
-              reviewType="content"
+              reviewType="teacher"
             />
           </div>
         </>
@@ -42,4 +44,4 @@ const ContentRating: React.FC<ContentRatingProps> = ({ Content }) => {
   );
 };
 
-export default ContentRating;
+export default TeacherReview;

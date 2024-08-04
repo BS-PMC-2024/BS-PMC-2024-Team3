@@ -1,4 +1,5 @@
 "use client";
+
 import { Session } from "next-auth";
 import { useState } from "react";
 import Image from "next/image";
@@ -6,6 +7,7 @@ import { PencilIcon } from "@heroicons/react/24/outline";
 import { Zoom } from "react-awesome-reveal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import EditProfile from "./editProfile";
+
 interface ProfileProps {
   session: Session;
 }
@@ -22,9 +24,11 @@ const UserProfile: React.FC<ProfileProps> = ({ session }) => {
     nameParts && nameParts.length >= 2
       ? nameParts[0][0] + nameParts[1][0]
       : "AA";
+
   const handleEditImage = () => {
     setEditImage(!EditImage);
   };
+
   return (
     <>
       {session.user.name && (
@@ -40,7 +44,6 @@ const UserProfile: React.FC<ProfileProps> = ({ session }) => {
                     <div className="flex-shrink-0 relative">
                       <Image
                         src={imagePreviewUrl}
-                        height={128}
                         width={128}
                         height={128}
                         alt={`${session.user.name}'s picture`}
