@@ -17,7 +17,7 @@ export default function Home() {
             font.className
           )}
         >
-          🔐 התחברות
+          🔐 !התחברות
         </h1>
         <p></p>
         <LoginButton>
