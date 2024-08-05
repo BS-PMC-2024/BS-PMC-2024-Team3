@@ -89,7 +89,7 @@ export default function GrammarContent() {
                   key={level.label}
                   variant="outline"
                   className="m-2 border-mediumBeige hover:bg-grayish text-mediumBeige"
-                  onClick={() => handleLevelChosen("Hard")}
+                  onClick={() => handleLevelChosen(level.label)}
                 >
                   {level.label}
                 </Button>
