@@ -1,27 +1,29 @@
-import { auth } from "@/auth";
-import StudentOptionsCards from "@/components/student/StudentOptionsCards";
-import StudentStatistics from "@/components/student/studentStatistics";
-import WelcomePage from "@/components/welcome/welcome";
-const StudentPage = async () => {
-  const session = await auth();
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Poppins } from "next/font/google";
+import { LoginButton } from "@/components/auth/login-button";
+
+const font = Poppins({
+  subsets: ["latin"],
+  weight: ["600"],
+});
+export default function Home() {
   return (
-    <>
-      <div>
-        {session?.user.name && <WelcomePage name={session?.user.name} />}
+    <main className="flex h-full flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-lightBeige to-mediumBeige">
+      <div className="space-y-6 text-center">
+        <h1
+          className={cn(
+            "text-6xl font-semibold text-white drop-shadow-md",
+            font.className
+          )}
+        >
+          🔐 התחברות
+        </h1>
+        <p></p>
+        <LoginButton>
+          <Button variant={"secondary"}>התחברות</Button>
+        </LoginButton>
       </div>
-      {session?.user.id && (
-        <>
-          <h2 className="text-center text-xl md:text-2xl lg:text-3xl 2xl:text-5xl text-darkRed mb-1 sm:mb-2">
-            סטטיסטיקות
-          </h2>
-          <div className="flex flex-row space-x-3 md:space-x-2 sm:px-2 md:px-4 w-4/5 mx-auto">
-          <div className="flex flex-wrap space-x-3 md:space-x-2 sm:px-2 md:px-4 w-4/5 mx-auto justify-center">
-            <StudentStatistics id={session?.user.id} />
-          </div>
-        </>
-      )}
-      <StudentOptionsCards />
-    </>
+    </main>
   );
-};
-export default StudentPage;
+}

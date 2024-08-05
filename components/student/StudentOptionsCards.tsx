@@ -4,7 +4,7 @@ import SelfLearningLogo from "@/public/studentCards/SelfLearningLogo.png";
 import TasksLogo from "@/public/studentCards/TasksLogo.png";
 const StudentOptionsCards = () => {
   return (
-    <div className="flex flex-wrap items-center justify-center py-16">
+    <div className="flex flex-wrap items-center justify-center py-12">
       <CardWrapper
         image={GameLogo}
         headerTitle="משחק"
