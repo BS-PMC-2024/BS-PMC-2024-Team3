@@ -346,3 +346,19 @@ export const getAllStudentsByTeacher = async () => {
     return { allStudents: [], combinedAnswers: [] };
   }
 };
+
+export const getStudentData = async (id: string) => {
+  try {
+    const student = await db.student.findUnique({
+      where: { id },
+      include: {
+        answers: { include: { question: true } },
+        tasks: true,
+        user: { select: { email: true } },
+      },
+    });
+    return student;
+  } catch (error) {
+    console.error("Error Getting Student Data", error);
+  }
+};
