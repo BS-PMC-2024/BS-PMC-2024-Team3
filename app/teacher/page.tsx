@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import StudentStatistics from "@/components/student/studentStatistics";
-// import StudentChoose from "@/components/teacher/StudentChoose";
+import StudentChoose from "@/components/teacher/StudentChoose";
 import WelcomePage from "@/components/welcome/welcome";
 import { getAllStudentsByTeacher } from "@/lib/ServerActions/ServerActions";
 const TeacherPage = async () => {
@@ -22,7 +22,7 @@ const TeacherPage = async () => {
           <div className="flex flex-wrap space-x-3 md:space-x-2 sm:px-2 md:px-4 w-full md:w-4/5 mx-auto justify-center">
             <StudentStatistics studentStats={combinedAnswers} />
           </div>
-          {/* <StudentChoose allStudents={allStudents} /> */}
+          <StudentChoose allStudents={allStudents} />
         </>
       )}
     </>
