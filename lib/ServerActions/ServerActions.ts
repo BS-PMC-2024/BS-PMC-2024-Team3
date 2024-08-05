@@ -3,6 +3,8 @@ import { TeacherNotApprovedRoute } from "@/routes";
 import { db } from "../db";
 import { auth } from "@/auth";
 import { Select } from "@tremor/react";
+import { StudentAnswer } from "@prisma/client";
+
 export const getAllTeachersNameAndID = async () => {
   try {
     const Teachers = await db.teacher.findMany({});
@@ -11,6 +13,7 @@ export const getAllTeachersNameAndID = async () => {
     console.error("Error Fetching All Teachers - ", error);
   }
 };
+
 export const NumberOfTeachersWaitingApproval = async () => {
   try {
     const number = await db.user.findMany({
@@ -21,6 +24,7 @@ export const NumberOfTeachersWaitingApproval = async () => {
     console.error("Error Fetching All Teachers - ", error);
   }
 };
+
 export const getTeachersWaitingApproval = async () => {
   try {
     const Teachers = await db.user.findMany({
@@ -32,6 +36,7 @@ export const getTeachersWaitingApproval = async () => {
     console.error("Error Fetching All Teachers - ", error);
   }
 };
+
 export const ApproveTeacher = async (id: string) => {
   try {
     await db.user.update({
@@ -42,6 +47,7 @@ export const ApproveTeacher = async (id: string) => {
     console.error("Error Fetching All Teachers - ", error);
   }
 };
+
 export const getAllUsers = async () => {
   try {
     const Users = await db.user.findMany({
@@ -56,6 +62,7 @@ export const getAllUsers = async () => {
     console.error("Error Fetching All Teachers - ", error);
   }
 };
+
 export const DeleteUser = async (id: string) => {
   try {
     await db.user.delete({
@@ -65,6 +72,7 @@ export const DeleteUser = async (id: string) => {
     console.error("Error Fetching All Teachers - ", error);
   }
 };
+
 export const studentSelfLearningAnswer = async (
   type: string,
   text: string,
@@ -102,6 +110,7 @@ export const studentSelfLearningAnswer = async (
     console.error("Error Saving Answer - ", error);
   }
 };
+
 export const studentStats = async (userId: string | undefined) => {
   if (!userId) {
     throw new Error("userId is required");
@@ -123,10 +132,11 @@ export const studentStats = async (userId: string | undefined) => {
     });
     return studentAnswers;
   } catch (error) {
-    console.error("Error retrieving student answers:", error);
+    console.error("Error getting student stats", error);
     throw error;
   }
 };
+
 export const UpdateUserDetails = async (
   NewName: string | null,
   NewImage: string | null
@@ -134,6 +144,7 @@ export const UpdateUserDetails = async (
   try {
     const session = await auth();
     if (!session) return;
+
     const userId = session.user.id;
     const userRole = session.user.role;
     const updateData = {
@@ -165,6 +176,7 @@ export const UpdateUserDetails = async (
     console.error("Error Changing User Details in DB ", error);
   }
 };
+
 export const getMyTeacher = async () => {
   try {
     const session = await auth();
@@ -183,9 +195,10 @@ export const getMyTeacher = async () => {
       score: teacher?.rating?.score || null,
     };
   } catch (error) {
-    console.error("Error Changing User Details in DB ", error);
+    console.error("Error getting the teacher", error);
   }
 };
+
 export const AddReviewToTeacher = async (
   ExistReview: boolean,
   score: number,
@@ -197,6 +210,7 @@ export const AddReviewToTeacher = async (
     const student = await db.student.findUnique({
       where: { userId: session.user.id },
     });
+
     if (!student) {
       console.error("Student record not found for the current user");
       return;
@@ -216,6 +230,7 @@ export const AddReviewToTeacher = async (
           teacherId: teacherId,
         },
       });
+
       if (rating) {
         await db.rating.update({
           where: { id: rating.id },
@@ -229,6 +244,7 @@ export const AddReviewToTeacher = async (
     console.error("Error Changing User Details in DB ", error);
   }
 };
+
 export const getContentRating = async () => {
   try {
     const session = await auth();
@@ -240,13 +256,18 @@ export const getContentRating = async () => {
       console.error("Teacher not found for userId:", session.user.id);
       return null;
     }
-    const contentRating = await db.rating.findFirst({
     const contentRating = await db.contentRating.findFirst({
       where: { teacherId: teacher.id },
     });
 
-@@ -269,3 +269,41 @@ export const getContentRating = async () => {
-    console.error("Error Changing User Details in DB ", error);
+    if (!contentRating) {
+      console.warn("No rating found for teacherId:", teacher.id);
+      return null;
+    }
+
+    return contentRating;
+  } catch (error) {
+    console.error("Error getting content rating ", error);
   }
 };
 
@@ -285,5 +306,43 @@ export const AddReviewToContent = async (
     }
   } catch (error) {
     console.error("Error adding or updating content review in DB", error);
+  }
+};
+
+export const getAllStudentsByTeacher = async () => {
+  try {
+    const session = await auth();
+    if (!session) return { allStudents: [], combinedAnswers: [] };
+    const teacherWithStudents = await db.teacher.findUnique({
+      where: { userId: session.user.id },
+      select: {
+        students: {
+          include: {
+            answers: {
+              include: {
+                question: {
+                  select: {
+                    type: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    const allStudents = teacherWithStudents?.students || [];
+    const combinedAnswers = allStudents.reduce(
+      (acc: StudentAnswer[], student) => {
+        acc.push(...student.answers);
+        return acc;
+      },
+      []
+    );
+
+    return { allStudents, combinedAnswers };
+  } catch (error) {
+    console.error("Error adding or updating content review in DB", error);
+    return { allStudents: [], combinedAnswers: [] };
   }
 };

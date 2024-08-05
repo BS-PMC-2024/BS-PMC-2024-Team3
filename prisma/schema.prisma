@@ -78,6 +78,9 @@ model Teacher {
   students  Student[]
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String @unique
+  tasks     TeacherTask[]
+  rating Rating[]
+  contentRating ContentRating?
 }
 
 model Student {
@@ -89,4 +92,60 @@ model Student {
   teacherId   String
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String @unique
+  answers     StudentAnswer[]
+  tasks       TeacherTask[]
+  rating      Rating?
+}
+
+model Question {
+  id           String @id @default(cuid())
+  type         String
+  text         String
+  correctAnswer String
+  falseAnswer1 String?
+  falseAnswer2 String?
+  falseAnswer3 String?
+  tasks        TeacherTask[]
+  studentAnswers StudentAnswer[]
+}
+
+model StudentAnswer {
+  id          String   @id @default(cuid())
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId   String
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId  String
+  givenAnswer String
+  isCorrect   Boolean
+}
+
+model TeacherTask {
+  id          String     @id @default(cuid())
+  date        DateTime
+  messageText String
+  grade       String?
+  student     Student    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId   String
+  teacher     Teacher    @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId   String
+  questions   Question[]
+}
+
+model Rating {
+  id          String    @id @default(cuid())
+  score       Int
+  student     Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId   String    @unique
+  teacher     Teacher   @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId   String
+}
+
+model ContentRating {
+  id        String    @id @default(cuid())
+  comment String?
+  teacher   Teacher   @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId String
+  rating    Int
+
+  @@unique([teacherId])
 }

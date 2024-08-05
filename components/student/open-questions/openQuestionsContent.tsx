@@ -2,8 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { OpenQuestionsRequest } from "@/lib/openai";
+import { studentSelfLearningAnswer } from "@/lib/ServerActions/ServerActions";
 import { useState } from "react";
 import HashLoader from "react-spinners/HashLoader";
+import Hint from "../Hint";
 
 export default function OpenQuestionsContent() {
   const [level, setLevel] = useState<string | null>(null);
@@ -11,7 +13,7 @@ export default function OpenQuestionsContent() {
     paragraph: "",
     question: "",
     answers: ["1", "2", "3", "4"],
-    correctAnswer: "",
+    correctAnswer: 1,
   });
   const [userAnswer, setUserAnswer] = useState("");
   const [answer, setAnswer] = useState<{
@@ -20,6 +22,7 @@ export default function OpenQuestionsContent() {
   }>({ hasAnswered: false, isCorrect: false });
   const [Error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hintText, setHintText] = useState<string>();
   const Levels = [
     { name: "Easy", label: "Easy" },
     { name: "Medium", label: "Medium" },
@@ -42,19 +45,38 @@ export default function OpenQuestionsContent() {
     }
   };
 
-  const handleAnswerSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAnswerSubmit = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setHintText("");
     const ChosenAnswer = event.target.value;
     setUserAnswer(ChosenAnswer);
-    if (ChosenAnswer == response.correctAnswer) {
+    if (
+      response.answers[parseInt(ChosenAnswer, 10)] ===
+      response.answers[response.correctAnswer]
+    ) {
       setAnswer({ hasAnswered: true, isCorrect: true });
+      await studentSelfLearningAnswer(
+        "openQuestions",
+        "Text: " + response.paragraph + "\n" + "Question: " + response.question,
+        response.correctAnswer.toString(),
+        true
+      );
     } else {
       setAnswer({ hasAnswered: true, isCorrect: false });
+      await studentSelfLearningAnswer(
+        "openQuestions",
+        "Text: " + response.paragraph + "\n" + "Question: " + response.question,
+        response.correctAnswer.toString(),
+        false
+      );
     }
   };
 
   const handleNextQuestion = () => {
     setIsLoading(true);
     setUserAnswer("");
+    setHintText("");
     setAnswer({ hasAnswered: false, isCorrect: false });
     if (level) {
       handleRequest(level);
@@ -101,6 +123,7 @@ export default function OpenQuestionsContent() {
                       </span>
                       {response.paragraph}
                     </div>
+
                     <div className="text-xs sm:text-xs md:text-sm text-black py-1">
                       <span className="text-darkRed font-semibold">
                         Question:{" "}
@@ -109,9 +132,35 @@ export default function OpenQuestionsContent() {
                     </div>
                     {!answer.hasAnswered ? (
                       <div className="text-xs sm:text-xs md:text-sm py-2">
-                        <Label className=" text-darkRed font-medium">
-                          Select the right answer:
-                        </Label>
+                        <div className="flex justify-between">
+                          <div>
+                            <Label className=" text-darkRed font-medium">
+                              Select the right answer:
+                            </Label>
+                            {hintText ? (
+                              <Label
+                                className=" text-darkRed font-medium"
+                                dir="rtl"
+                              >
+                                <br />
+                                רמז: {hintText}
+                              </Label>
+                            ) : null}
+                          </div>
+                          <Hint
+                            setHintText={setHintText}
+                            answerForHint={
+                              response.answers[response.correctAnswer]
+                            }
+                            textForHint={
+                              "The Text: " +
+                              response.paragraph +
+                              ".\nThe question is: " +
+                              response.question
+                            }
+                            type="openquestion"
+                          />
+                        </div>
                         <div className="mt-1">
                           <form>
                             {Object.entries(response.answers).map(
@@ -161,8 +210,8 @@ export default function OpenQuestionsContent() {
                                 תשובה נכונה:{" "}
                               </span>
                               {Object.entries(response.answers).map(
-                                ([key, value]) => {
-                                  if (response.correctAnswer === key) {
+                                ([key, value], index) => {
+                                  if (index === response.correctAnswer) {
                                     return (
                                       <div
                                         className="text-grayish text-center mx-1"
@@ -191,11 +240,11 @@ export default function OpenQuestionsContent() {
                             >
                               התשובה הנכונה היא :
                               {Object.entries(response.answers).map(
-                                ([key, value]) => {
-                                  if (response.correctAnswer === key) {
+                                ([key, value], index) => {
+                                  if (index === response.correctAnswer) {
                                     return (
                                       <div
-                                        className="text-grayish mx-1"
+                                        className="text-grayish text-center mx-1"
                                         key={key}
                                       >
                                         {value}

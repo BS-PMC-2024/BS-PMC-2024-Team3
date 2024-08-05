@@ -5,12 +5,14 @@ import UserProfile from "./profile/profile";
 import TeacherReview from "./review/teacherReview";
 import { Session } from "next-auth";
 import ContentRating from "./review/contentRating";
+
 interface ChooseCategoryProps {
   session: Session;
   teacher?: TeacherWithScore | null | undefined;
   Content?: ContentType | null | undefined;
   userRole: "student" | "teacher";
 }
+
 interface TeacherWithScore {
   id: string;
   name: string | null;
@@ -20,8 +22,6 @@ interface TeacherWithScore {
 
 interface ContentType {
   id: string;
-  comment: string | null;
-  teacherId: string;
   rating: number;
   teacherId: string;
   comment?: string | null;
@@ -37,6 +37,7 @@ const ChooseCategory: React.FC<ChooseCategoryProps> = ({
   const handleChosen = (ChosenName: string) => {
     setCategoryChosen(ChosenName);
   };
+
   return (
     <>
       {
@@ -60,4 +61,5 @@ const ChooseCategory: React.FC<ChooseCategoryProps> = ({
     </>
   );
 };
+
 export default ChooseCategory;
