@@ -14,7 +14,7 @@ const StudentCard: React.FC<StudentCardProps> = ({ name, image, email }) => {
           className="absolute right-1 top-1 flex itesm-center text-sm md:text-base text-darkRed whitespace-nowrap"
           dir="rtl"
         >
-          פרטי התלמיד
+          פרטי התלמיד:
           <span className="flex items-center mx-2">
             <IdentificationIcon className="w-5 h-5" />
           </span>
@@ -27,7 +27,7 @@ const StudentCard: React.FC<StudentCardProps> = ({ name, image, email }) => {
           <div className="mb-1 sm:mb-2 font-medium ">
             מייל:
             <a href={`mailto:${email}`} className="underline">
-              {" "}
+              {"  "}
               {email}
             </a>
           </div>
