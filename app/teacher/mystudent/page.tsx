@@ -1,19 +1,24 @@
 import StudentCard from "@/components/teacher/myStudent/studentCard";
 import StudentStatistics from "@/components/student/studentStatistics";
 import { getStudentData } from "@/lib/ServerActions/ServerActions";
-// import { Tasks } from "@/components/teacher/myStudent/tasks";
+import { Tasks } from "@/components/teacher/myStudent/tasks";
 export default async function MyStudent({
   searchParams,
 }: {
   searchParams: { [key: string]: string };
 }) {
   const studentData = await getStudentData(searchParams.id);
-  let studentDataForCard;
+  let studentDataForCard, studentDataForTask;
   if (studentData) {
     studentDataForCard = {
       name: studentData?.name,
       image: studentData?.image,
       email: studentData?.user.email,
+    };
+    studentDataForTask = {
+      id: studentData.id,
+      tasks: studentData.tasks,
+      name: studentData?.name,
     };
   }
 
@@ -26,7 +31,7 @@ export default async function MyStudent({
             <StudentStatistics studentStats={studentData.answers} />
           )}
         </div>
-        {/* {studentData && <Tasks studentId={studentData?.id} />} */}
+        {studentDataForTask && <Tasks {...studentDataForTask} />}
       </div>
     </>
   );
