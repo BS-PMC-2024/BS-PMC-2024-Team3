@@ -3,7 +3,7 @@ import { TeacherNotApprovedRoute } from "@/routes";
 import { db } from "../db";
 import { auth } from "@/auth";
 import { Select } from "@tremor/react";
-import { StudentAnswer } from "@prisma/client";
+import { Question, StudentAnswer } from "@prisma/client";
 
 export const getAllTeachersNameAndID = async () => {
   try {
@@ -358,6 +358,100 @@ export const getStudentData = async (id: string) => {
       },
     });
     return student;
+  } catch (error) {
+    console.error("Error Getting Student Data", error);
+  }
+};
+
+export const createTaskToStudent = async (
+  selectedQuestionType: string,
+  task: Question[],
+  studentId: string,
+  date: string,
+  messageText: string
+) => {
+  const session = await auth();
+  if (!session) {
+    return;
+  }
+  const teacherExists = await db.teacher.findUnique({
+    where: { userId: session.user.id },
+  });
+  if (!teacherExists) {
+    throw new Error(`Teacher with ID does not exist.`);
+  }
+  const dateObject = new Date(date);
+  const createdQuestions = [];
+
+  for (const question of task) {
+    let createdQuestion;
+    switch (selectedQuestionType) {
+      case "grammar":
+        createdQuestion = await db.question.create({
+          data: {
+            type: "grammar",
+            text: question.text,
+            correctAnswer: question.correctAnswer,
+          },
+        });
+        break;
+
+      case "openQuestions":
+        createdQuestion = await db.question.create({
+          data: {
+            type: "openQuestions",
+            text: question.text,
+            correctAnswer: question.correctAnswer.toString(),
+          },
+        });
+        break;
+
+      case "vocabulary":
+        createdQuestion = await db.question.create({
+          data: {
+            type: "vocabulary",
+            text: question.text,
+            correctAnswer: question.correctAnswer,
+            falseAnswer1: question.falseAnswer1,
+            falseAnswer2: question.falseAnswer2,
+            falseAnswer3: question.falseAnswer3,
+          },
+        });
+        break;
+
+      default:
+        console.error("Unknown question type:", selectedQuestionType);
+        continue;
+    }
+    createdQuestions.push(createdQuestion);
+  }
+  await db.teacherTask.create({
+    data: {
+      date: dateObject,
+      messageText: messageText,
+      student: {
+        connect: { id: studentId },
+      },
+      questions: {
+        connect: createdQuestions.map((q) => ({ id: q.id })),
+      },
+      teacher: {
+        connect: { id: teacherExists.id },
+      },
+    },
+  });
+};
+
+export const getStudentTasks = async (id: string) => {
+  try {
+    const tasks = await db.student.findUnique({
+      where: { id },
+      select: {
+        tasks: { include: { questions: true } },
+        name: true,
+      },
+    });
+    return tasks;
   } catch (error) {
     console.error("Error Getting Student Data", error);
   }

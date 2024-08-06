@@ -124,6 +124,7 @@ model TeacherTask {
   date        DateTime
   messageText String
   grade       String?
+  approvedByAdmin      Boolean @default(false)
   student     Student    @relation(fields: [studentId], references: [id], onDelete: Cascade)
   studentId   String
   teacher     Teacher    @relation(fields: [teacherId], references: [id], onDelete: Cascade)

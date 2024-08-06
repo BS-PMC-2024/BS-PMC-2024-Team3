@@ -17,3 +17,12 @@ export const getUserById = async (id: string) => {
     return null;
   }
 };
+
+export const getStudentById = async (id: string) => {
+  try {
+    const user = await db.student.findUnique({ where: { id } });
+    return user;
+  } catch {
+    return null;
+  }
+};
