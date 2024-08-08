@@ -1,8 +1,10 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
   GrammarRequest,
   OpenQuestionsRequest,
+  vocabularyRequest,
   vocabularyRequestSingle,
 } from "@/lib/openai";
 import { Question } from "@prisma/client";
@@ -43,7 +45,6 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({
   const [Error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [CurrentQuestion, setCurrentQuestion] = useState<Question | null>(null);
-  // const [fourAnswersArray, setFourAnswersArray] = useState<string[][]>([]);
   const [flagQuestion, setFlagQuestion] = useState<boolean>(false);
   const [responseVocabulary, setResponseVocabulary] = useState<VocabularyData>({
     words: [],
@@ -86,23 +87,22 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({
 
     switch (selectedQuestionType) {
       case "grammar":
-        newQuestion.text = `Mistake: ${responseGrammar.mistake}, Correct: ${responseGrammar.correct}`;
+        newQuestion.text = responseGrammar.mistake;
         newQuestion.correctAnswer = responseGrammar.correct;
         break;
       case "vocabulary":
-        newQuestion.text = `Words: ${responseVocabulary.words.join(", ")}`;
+        newQuestion.text = responseVocabulary.words.join(", ");
         newQuestion.correctAnswer = responseVocabulary.answers[0];
         newQuestion.falseAnswer1 = responseVocabulary.answers[1];
         newQuestion.falseAnswer2 = responseVocabulary.answers[2];
         newQuestion.falseAnswer3 = responseVocabulary.answers[3];
         break;
       case "openQuestions":
-        newQuestion.text = `Paragraph: ${responseOpenQuestions.paragraph}, Question: ${responseOpenQuestions.question}`;
-        newQuestion.correctAnswer =
-          responseOpenQuestions.answers[responseOpenQuestions.correctAnswer];
-        newQuestion.falseAnswer1 = responseOpenQuestions.answers[0];
-        newQuestion.falseAnswer2 = responseOpenQuestions.answers[1];
-        newQuestion.falseAnswer3 = responseOpenQuestions.answers[2];
+        newQuestion.text = `Text: ${responseOpenQuestions.paragraph}, Question: ${responseOpenQuestions.question}`;
+        newQuestion.correctAnswer = responseOpenQuestions.answers[0];
+        newQuestion.falseAnswer1 = responseOpenQuestions.answers[1];
+        newQuestion.falseAnswer2 = responseOpenQuestions.answers[2];
+        newQuestion.falseAnswer3 = responseOpenQuestions.answers[3];
         break;
     }
     setQuestionArr([...questionArr, newQuestion]);
@@ -174,9 +174,7 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({
                   {CurrentQuestion.type === "grammar" && (
                     <GrammarQuestion
                       responseGrammar={{
-                        mistake: CurrentQuestion.text
-                          .split(", Correct: ")[0]
-                          .split(": ")[1],
+                        mistake: CurrentQuestion.text,
                         correct: CurrentQuestion.correctAnswer,
                       }}
                     />
@@ -201,9 +199,7 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({
                   {CurrentQuestion.type === "vocabulary" && (
                     <VocabularyQuestion
                       responseVocabulary={{
-                        words: CurrentQuestion.text
-                          .split("Words: ")[1]
-                          .split(", "),
+                        words: CurrentQuestion.text.split(", "),
                         answers: [
                           CurrentQuestion.correctAnswer,
                           CurrentQuestion.falseAnswer1!,

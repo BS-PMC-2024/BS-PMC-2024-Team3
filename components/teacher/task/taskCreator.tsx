@@ -1,7 +1,7 @@
 "use client";
 import { Question, Student } from "@prisma/client";
 import { PaginationPage } from "./PaginationPage";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import QuestionComponent from "./Question";
 import { Button } from "@/components/ui/button";
 import HashLoader from "react-spinners/HashLoader";

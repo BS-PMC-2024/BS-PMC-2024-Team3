@@ -20,7 +20,13 @@ const OpenQuestion = ({ responseOpenQuestions }: OpenQuestionProps) => {
       </div>
       <div className="text-xs sm:text-xs md:text-sm text-black">
         <span className="text-darkRed font-semibold">Answers: </span>
-        {responseOpenQuestions.answers.join(", ")}
+        {responseOpenQuestions.answers.map((answer, index) => (
+          <div key={index}>
+            {index + 1}
+            {". "}
+            {answer}
+          </div>
+        ))}
       </div>
       <div className="text-xs sm:text-xs md:text-sm text-black">
         <span className="text-darkRed font-semibold">Correct Answer: </span>
