@@ -6,7 +6,7 @@ import SigninButton from "./signinbutton";
 const NavBar = async () => {
   const session = await auth();
   return (
-    <header className="flex px-2 bg-mediumBeige border-b border-lightBeige">
+    <header className="flex px-3 bg-mediumBeige border-b border-lightBeige">
       <div className="flex justify-between items-center w-full">
         <Navbarcontent />
         <div className="flex flex-row items-center">
