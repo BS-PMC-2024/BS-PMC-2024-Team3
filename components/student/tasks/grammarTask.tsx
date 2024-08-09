@@ -25,7 +25,6 @@ const GrammarTask: React.FC<GrammarTaskProps> = ({
   }>({ hasAnswered: false, isCorrect: false });
 
   const handleAnswerSubmit = async () => {
-    // setUserAnswer("");
     if (
       userAnswer.trim().toLowerCase() === question.correctAnswer.toLowerCase()
     ) {
