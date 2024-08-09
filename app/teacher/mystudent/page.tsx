@@ -1,39 +1,23 @@
-import StudentCard from "@/components/teacher/myStudent/studentCard";
-import StudentStatistics from "@/components/student/studentStatistics";
-import { getStudentData } from "@/lib/ServerActions/ServerActions";
-import { Tasks } from "@/components/teacher/myStudent/tasks";
 import TitleAndButton from "@/components/headerNav/TitleAndButton";
-export default async function MyStudent({
+import { TaskCreator } from "@/components/teacher/task/taskCreator";
+import { Button } from "@/components/ui/button";
+import { getStudentById } from "@/data/user";
+import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+
+export default async function CreateTask({
   searchParams,
 }: {
   searchParams: { [key: string]: string };
 }) {
-  const studentData = await getStudentData(searchParams.id);
-  let studentDataForCard, studentDataForTask;
-  if (studentData) {
-    studentDataForCard = {
-      name: studentData?.name,
-      image: studentData?.image,
-      email: studentData?.user.email,
-    };
-    studentDataForTask = {
-      id: studentData.id,
-      tasks: studentData.tasks,
-      name: studentData?.name,
-    };
-  }
-
+  const student = await getStudentById(searchParams.id);
   return (
     <>
-      <div className="w-2/3 mx-auto">
-        <TitleAndButton PageName={"דף תלמיד"} />
+      <div className="mx-2 lg:mx-8 2xl:mx-16">
+        <TitleAndButton PageName={`יצירת משימה לתלמיד - ${student?.name}`} />
       </div>
-      <div className="flex flex-col space-y-8 justify-center">
-        {studentDataForCard && <StudentCard {...studentDataForCard} />}
-        {studentData && (
-          <StudentStatistics studentStats={studentData.answers} />
-        )}
-        {studentDataForTask && <Tasks {...studentDataForTask} />}
+      <div className="flex justify-center min-h-screen md:min-h-[500px] mx-2 lg:mx-8 2xl:mx-16 border border-mediumBeige shadow-xl rounded-lg bg-lightBeige">
+        {student && <TaskCreator student={student} />}
       </div>
     </>
   );
