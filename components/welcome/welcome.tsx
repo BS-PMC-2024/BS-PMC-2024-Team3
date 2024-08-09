@@ -47,7 +47,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ name }) => {
           ברוך השב, {name}
         </h1>
         <div
-          className="text-xs md:text-md lg:text-md 2xl:text-lg font-medium text-grayish min-h-52"
+          className="text-xs md:text-base lg:text-lg 2xl:text-xl font-medium text-grayish min-h-52"
           dir="rtl"
           dangerouslySetInnerHTML={{ __html: displayedText }}
         ></div>
