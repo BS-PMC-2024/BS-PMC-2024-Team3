@@ -37,7 +37,7 @@ const StudentChoose: React.FC<StudentChoseProps> = ({ allStudents }) => {
             type="text"
             value={searchTerm}
             onChange={handleSearchChange}
-            placeholder="חפש לקוח .."
+            placeholder="חפש משתמש .."
             className="rounded-xl shadow-xl pl-8 pr-10 w-full border-grayish"
           />
           <div className="absolute left-2 top-1/2 transform -translate-y-1/2">
