@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="22" failures="0" errors="0" time="3.417">
-  <testsuite name="API functions" errors="0" failures="0" skipped="0" timestamp="2024-08-08T10:04:14" time="2.969" tests="3">
-    <testcase classname="API functions GrammarRequest should return a mistake and correct question" name="API functions GrammarRequest should return a mistake and correct question" time="0.003">
+<testsuites name="jest tests" tests="22" failures="0" errors="0" time="4.538">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2024-08-09T13:05:59" time="4.082" tests="1">
+    <testcase classname=" basic test" name=" basic test" time="0.002">
     </testcase>
-    <testcase classname="API functions OpenQuestionsRequest should return a paragraph, question, answers, and correctAnswer" name="API functions OpenQuestionsRequest should return a paragraph, question, answers, and correctAnswer" time="0">
+  </testsuite>
+  <testsuite name="API functions" errors="0" failures="0" skipped="0" timestamp="2024-08-09T13:05:58" time="4.13" tests="3">
+    <testcase classname="API functions GrammarRequest should return a mistake and correct question" name="API functions GrammarRequest should return a mistake and correct question" time="0.007">
+    </testcase>
+    <testcase classname="API functions OpenQuestionsRequest should return a paragraph, question, answers, and correctAnswer" name="API functions OpenQuestionsRequest should return a paragraph, question, answers, and correctAnswer" time="0.001">
     </testcase>
     <testcase classname="API functions vocabularyRequest should return words and their translations" name="API functions vocabularyRequest should return words and their translations" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="ServerActions" errors="0" failures="0" skipped="0" timestamp="2024-08-08T10:04:14" time="3.036" tests="6">
-    <testcase classname="ServerActions studentStats should return student answers if userId is provided" name="ServerActions studentStats should return student answers if userId is provided" time="0.002">
+  <testsuite name="login" errors="0" failures="0" skipped="0" timestamp="2024-08-09T13:05:59" time="4.161" tests="3">
+    <testcase classname="login should login a user successfully and redirect based on role" name="login should login a user successfully and redirect based on role" time="0.005">
     </testcase>
-    <testcase classname="ServerActions studentStats should throw an error if userId is not provided" name="ServerActions studentStats should throw an error if userId is not provided" time="0.009">
+    <testcase classname="login should return error for invalid fields" name="login should return error for invalid fields" time="0.001">
     </testcase>
-    <testcase classname="ServerActions studentStats should handle errors gracefully" name="ServerActions studentStats should handle errors gracefully" time="0.009">
-    </testcase>
-    <testcase classname="ServerActions getAllStudentsByTeacher should return all students and their combined answers for a teacher" name="ServerActions getAllStudentsByTeacher should return all students and their combined answers for a teacher" time="0">
-    </testcase>
-    <testcase classname="ServerActions getAllStudentsByTeacher should return empty arrays if no session is found" name="ServerActions getAllStudentsByTeacher should return empty arrays if no session is found" time="0.001">
-    </testcase>
-    <testcase classname="ServerActions getAllStudentsByTeacher should handle errors gracefully" name="ServerActions getAllStudentsByTeacher should handle errors gracefully" time="0">
+    <testcase classname="login should return error for non-existing user" name="login should return error for non-existing user" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="login" errors="0" failures="0" skipped="0" timestamp="2024-08-08T10:04:14" time="3.052" tests="3">
-    <testcase classname="login should login a user successfully and redirect based on role" name="login should login a user successfully and redirect based on role" time="0.003">
+  <testsuite name="ServerActions" errors="0" failures="0" skipped="0" timestamp="2024-08-09T13:05:59" time="4.198" tests="6">
+    <testcase classname="ServerActions studentStats should return student answers if userId is provided" name="ServerActions studentStats should return student answers if userId is provided" time="0.004">
     </testcase>
-    <testcase classname="login should return error for invalid fields" name="login should return error for invalid fields" time="0">
+    <testcase classname="ServerActions studentStats should throw an error if userId is not provided" name="ServerActions studentStats should throw an error if userId is not provided" time="0.021">
     </testcase>
-    <testcase classname="login should return error for non-existing user" name="login should return error for non-existing user" time="0.001">
+    <testcase classname="ServerActions studentStats should handle errors gracefully" name="ServerActions studentStats should handle errors gracefully" time="0.01">
     </testcase>
-  </testsuite>
-  <testsuite name="register" errors="0" failures="0" skipped="0" timestamp="2024-08-08T10:04:14" time="3.042" tests="1">
-    <testcase classname="register should register a user successfully" name="register should register a user successfully" time="0.03">
+    <testcase classname="ServerActions getAllStudentsByTeacher should return all students and their combined answers for a teacher" name="ServerActions getAllStudentsByTeacher should return all students and their combined answers for a teacher" time="0.006">
     </testcase>
-  </testsuite>
-  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2024-08-08T10:04:14" time="3.236" tests="1">
-    <testcase classname=" basic test" name=" basic test" time="0.002">
+    <testcase classname="ServerActions getAllStudentsByTeacher should return empty arrays if no session is found" name="ServerActions getAllStudentsByTeacher should return empty arrays if no session is found" time="0">
+    </testcase>
+    <testcase classname="ServerActions getAllStudentsByTeacher should handle errors gracefully" name="ServerActions getAllStudentsByTeacher should handle errors gracefully" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="reset function" errors="0" failures="0" skipped="0" timestamp="2024-08-08T10:04:14" time="3.224" tests="2">
-    <testcase classname="reset function should return an error for invalid email format" name="reset function should return an error for invalid email format" time="0.002">
+  <testsuite name="Login Integration Tests" errors="0" failures="0" skipped="0" timestamp="2024-08-09T13:05:58" time="4.271" tests="3">
+    <testcase classname="Login Integration Tests should login a user successfully and redirect based on role" name="Login Integration Tests should login a user successfully and redirect based on role" time="0.033">
     </testcase>
-    <testcase classname="reset function should return an error if email does not exist in the system" name="reset function should return an error if email does not exist in the system" time="0">
+    <testcase classname="Login Integration Tests should return error for invalid fields" name="Login Integration Tests should return error for invalid fields" time="0.003">
     </testcase>
-  </testsuite>
-  <testsuite name="Login Integration Tests" errors="0" failures="0" skipped="0" timestamp="2024-08-08T10:04:14" time="3.236" tests="3">
-    <testcase classname="Login Integration Tests should login a user successfully and redirect based on role" name="Login Integration Tests should login a user successfully and redirect based on role" time="0.011">
-    </testcase>
-    <testcase classname="Login Integration Tests should return error for invalid fields" name="Login Integration Tests should return error for invalid fields" time="0.002">
-    </testcase>
-    <testcase classname="Login Integration Tests should return error for non-existing user" name="Login Integration Tests should return error for non-existing user" time="0.001">
+    <testcase classname="Login Integration Tests should return error for non-existing user" name="Login Integration Tests should return error for non-existing user" time="0.002">
     </testcase>
   </testsuite>
-  <testsuite name="ServerActions Integration Tests" errors="0" failures="0" skipped="0" timestamp="2024-08-08T10:04:14" time="3.25" tests="3">
-    <testcase classname="ServerActions Integration Tests studentStats should return student answers if userId is provided" name="ServerActions Integration Tests studentStats should return student answers if userId is provided" time="0.009">
+  <testsuite name="ServerActions Integration Tests" errors="0" failures="0" skipped="0" timestamp="2024-08-09T13:06:03" time="0.147" tests="3">
+    <testcase classname="ServerActions Integration Tests studentStats should return student answers if userId is provided" name="ServerActions Integration Tests studentStats should return student answers if userId is provided" time="0.024">
     </testcase>
-    <testcase classname="ServerActions Integration Tests studentStats should handle errors gracefully" name="ServerActions Integration Tests studentStats should handle errors gracefully" time="0.001">
+    <testcase classname="ServerActions Integration Tests studentStats should handle errors gracefully" name="ServerActions Integration Tests studentStats should handle errors gracefully" time="0.002">
     </testcase>
     <testcase classname="ServerActions Integration Tests getAllStudentsByTeacher should return all students and their combined answers for a teacher" name="ServerActions Integration Tests getAllStudentsByTeacher should return all students and their combined answers for a teacher" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="register" errors="0" failures="0" skipped="0" timestamp="2024-08-09T13:05:59" time="4.301" tests="1">
+    <testcase classname="register should register a user successfully" name="register should register a user successfully" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="reset function" errors="0" failures="0" skipped="0" timestamp="2024-08-09T13:05:59" time="4.307" tests="2">
+    <testcase classname="reset function should return an error for invalid email format" name="reset function should return an error for invalid email format" time="0.003">
+    </testcase>
+    <testcase classname="reset function should return an error if email does not exist in the system" name="reset function should return an error if email does not exist in the system" time="0">
     </testcase>
   </testsuite>
 </testsuites>

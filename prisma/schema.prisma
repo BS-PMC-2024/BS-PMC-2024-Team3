@@ -100,6 +100,7 @@ model Student {
 model Question {
   id           String @id @default(cuid())
   type         String
+  level        String @default("Easy")
   text         String
   correctAnswer String
   falseAnswer1 String?
@@ -122,6 +123,7 @@ model StudentAnswer {
 model TeacherTask {
   id          Int       @id @default(autoincrement())
   date        DateTime
+  level        String @default("Easy")
   messageText String
   grade       String?
   approvedByAdmin      Boolean @default(false)

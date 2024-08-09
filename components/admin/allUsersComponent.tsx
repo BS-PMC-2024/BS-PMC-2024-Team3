@@ -11,7 +11,7 @@ interface AllUsersComponentProps {
   Users: User[];
 }
 
-const allUsersComponent: React.FC<AllUsersComponentProps> = ({ Users }) => {
+const AllUsersComponent: React.FC<AllUsersComponentProps> = ({ Users }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -59,4 +59,4 @@ const allUsersComponent: React.FC<AllUsersComponentProps> = ({ Users }) => {
   );
 };
 
-export default allUsersComponent;
+export default AllUsersComponent;
