@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { OpenQuestionsRequest } from "@/lib/openai";
 import { studentSelfLearningAnswer } from "@/lib/ServerActions/ServerActions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HashLoader from "react-spinners/HashLoader";
 import Hint from "../Hint";
+import { ClockIcon } from "@heroicons/react/24/outline";
 
 export default function OpenQuestionsContent() {
   const [level, setLevel] = useState<string | null>(null);
@@ -23,6 +24,7 @@ export default function OpenQuestionsContent() {
   const [Error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hintText, setHintText] = useState<string>();
+  const [seconds, setSeconds] = useState(0);
   const Levels = [
     { name: "Easy", label: "Easy" },
     { name: "Medium", label: "Medium" },
@@ -53,10 +55,11 @@ export default function OpenQuestionsContent() {
     setUserAnswer(ChosenAnswer);
     if (
       response.answers[parseInt(ChosenAnswer, 10)] ===
-      response.answers[response.correctAnswer]
+      response.answers[response.correctAnswer - 1]
     ) {
       setAnswer({ hasAnswered: true, isCorrect: true });
       await studentSelfLearningAnswer(
+        level,
         "openQuestions",
         "Text: " + response.paragraph + "\n" + "Question: " + response.question,
         response.correctAnswer.toString(),
@@ -65,6 +68,7 @@ export default function OpenQuestionsContent() {
     } else {
       setAnswer({ hasAnswered: true, isCorrect: false });
       await studentSelfLearningAnswer(
+        level,
         "openQuestions",
         "Text: " + response.paragraph + "\n" + "Question: " + response.question,
         response.correctAnswer.toString(),
@@ -73,7 +77,32 @@ export default function OpenQuestionsContent() {
     }
   };
 
+  useEffect(() => {
+    let timer: string | number | NodeJS.Timeout | undefined;
+    if (!isLoading && !Error) {
+      timer = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds + 1);
+      }, 1000);
+    } else {
+      clearInterval(timer);
+      setSeconds(0);
+    }
+    return () => clearInterval(timer);
+  }, [isLoading, Error]);
+
+  const formatTime = (totalSeconds: number) => {
+    const hours = Math.floor(totalSeconds / 3600)
+      .toString()
+      .padStart(2, "0");
+    const minutes = Math.floor((totalSeconds % 3600) / 60)
+      .toString()
+      .padStart(2, "0");
+    const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+  };
+
   const handleNextQuestion = () => {
+    setSeconds(0);
     setIsLoading(true);
     setUserAnswer("");
     setHintText("");
@@ -117,6 +146,12 @@ export default function OpenQuestionsContent() {
               <>
                 {!Error ? (
                   <div className="flex flex-col m-1 sm:m-2 mb-4">
+                    {!answer.hasAnswered && (
+                      <Label className="flex justify-center items-center space-x-1 text-lg md:text-2xl text-lightRed mb-2">
+                        {formatTime(seconds)}
+                        <ClockIcon className="h-5 md:h-7 w-5 md:w-7 ml-2" />
+                      </Label>
+                    )}
                     <div className="text-xs sm:text-xs md:text-sm text-black">
                       <span className="text-darkRed font-semibold">
                         Paragraph:{" "}
@@ -150,7 +185,7 @@ export default function OpenQuestionsContent() {
                           <Hint
                             setHintText={setHintText}
                             answerForHint={
-                              response.answers[response.correctAnswer]
+                              response.answers[response.correctAnswer - 1]
                             }
                             textForHint={
                               "The Text: " +
@@ -211,7 +246,7 @@ export default function OpenQuestionsContent() {
                               </span>
                               {Object.entries(response.answers).map(
                                 ([key, value], index) => {
-                                  if (index === response.correctAnswer) {
+                                  if (index === response.correctAnswer - 1) {
                                     return (
                                       <div
                                         className="text-grayish text-center mx-1"
@@ -241,7 +276,7 @@ export default function OpenQuestionsContent() {
                               התשובה הנכונה היא :
                               {Object.entries(response.answers).map(
                                 ([key, value], index) => {
-                                  if (index === response.correctAnswer) {
+                                  if (index === response.correctAnswer - 1) {
                                     return (
                                       <div
                                         className="text-grayish text-center mx-1"
