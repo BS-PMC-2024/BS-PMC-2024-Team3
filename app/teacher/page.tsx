@@ -19,9 +19,7 @@ const TeacherPage = async () => {
           >
             סטטיסטיקות של כלל הסטודנטים
           </h2>
-          <div className="flex flex-wrap space-x-3 md:space-x-2 sm:px-2 md:px-4 w-full md:w-4/5 mx-auto justify-center">
-            <StudentStatistics studentStats={combinedAnswers} />
-          </div>
+          <StudentStatistics studentStats={combinedAnswers} />
           <StudentChoose allStudents={allStudents} />
         </>
       )}

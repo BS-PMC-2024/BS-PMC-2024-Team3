@@ -74,6 +74,7 @@ export const DeleteUser = async (id: string) => {
 };
 
 export const studentSelfLearningAnswer = async (
+  level: string | null,
   type: string,
   text: string,
   correctAnswer: string,
@@ -84,6 +85,7 @@ export const studentSelfLearningAnswer = async (
     if (session) {
       const question = await db.question.create({
         data: {
+          ...(level ? { level } : {}),
           type,
           text,
           correctAnswer,
@@ -126,6 +128,7 @@ export const studentStats = async (userId: string | undefined) => {
         question: {
           select: {
             type: true,
+            level: true,
           },
         },
       },
@@ -323,6 +326,7 @@ export const getAllStudentsByTeacher = async () => {
                 question: {
                   select: {
                     type: true,
+                    level: true,
                   },
                 },
               },
@@ -364,6 +368,7 @@ export const getStudentData = async (id: string) => {
 };
 
 export const createTaskToStudent = async (
+  level: string | null,
   selectedQuestionType: string,
   task: Question[],
   studentId: string,
@@ -389,6 +394,7 @@ export const createTaskToStudent = async (
       case "grammar":
         createdQuestion = await db.question.create({
           data: {
+            ...(level ? { level } : {}),
             type: "grammar",
             text: question.text,
             correctAnswer: question.correctAnswer,
@@ -399,6 +405,7 @@ export const createTaskToStudent = async (
       case "openQuestions":
         createdQuestion = await db.question.create({
           data: {
+            ...(level ? { level } : {}),
             type: "openQuestions",
             text: question.text,
             correctAnswer: question.correctAnswer.toString(),
@@ -412,6 +419,7 @@ export const createTaskToStudent = async (
       case "vocabulary":
         createdQuestion = await db.question.create({
           data: {
+            ...(level ? { level } : {}),
             type: "vocabulary",
             text: question.text,
             correctAnswer: question.correctAnswer,
@@ -431,6 +439,7 @@ export const createTaskToStudent = async (
   await db.teacherTask.create({
     data: {
       date: dateObject,
+      ...(level ? { level } : {}),
       messageText: messageText,
       student: {
         connect: { id: studentId },

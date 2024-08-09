@@ -77,6 +77,7 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({
   const handleSaveQuestion = () => {
     const newQuestion: Question = {
       id: "",
+      level: level,
       type: selectedQuestionType,
       text: "",
       correctAnswer: "",
