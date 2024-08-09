@@ -6,9 +6,9 @@ import Footer from "@/components/footer/Footer";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 const inter = Inter({ subsets: ["latin"] });
-import { Alef } from "next/font/google";
+import { Assistant } from "next/font/google";
 
-const alef = Alef({
+const font = Assistant({
   weight: "400",
   subsets: ["hebrew"],
 });
@@ -26,7 +26,7 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <html lang="en" className={alef.className}>
+    <html lang="en" className={font.className}>
       <body>
         <SessionProvider>
           {session && <Navbar />}
