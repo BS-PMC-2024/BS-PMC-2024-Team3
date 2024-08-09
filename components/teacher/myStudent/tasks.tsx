@@ -18,6 +18,18 @@ interface TasksProps {
 }
 
 export async function Tasks({ id, tasks, name }: TasksProps) {
+  const translateLevel = (level: string) => {
+    switch (level) {
+      case "Easy":
+        return "קל";
+      case "Medium":
+        return "בינוני";
+      case "Hard":
+        return "קשה";
+      default:
+        return " - ";
+    }
+  };
   return (
     <>
       <div className="mx-auto my-2">
@@ -52,6 +64,9 @@ export async function Tasks({ id, tasks, name }: TasksProps) {
                   ציון
                 </TableHead>
                 <TableHead className="text-right font-medium text-darkRed">
+                  רמה
+                </TableHead>
+                <TableHead className="text-right font-medium text-darkRed">
                   סטטוס
                 </TableHead>
               </TableRow>
@@ -66,6 +81,7 @@ export async function Tasks({ id, tasks, name }: TasksProps) {
                   </TableCell>
                   <TableCell>{task.messageText}</TableCell>
                   <TableCell>{task.grade ?? " - "}</TableCell>
+                  <TableCell>{translateLevel(task.level) ?? " - "}</TableCell>
                   <TableCell>
                     {task.approvedByAdmin ? "מאושר" : "ממתין לאישור מנהל האתר"}
                   </TableCell>

@@ -49,14 +49,17 @@ export function TaskCreator({ student }: TaskCreatorProps) {
   const SendToDB = async () => {
     setIsLoading(true);
     try {
-      await createTaskToStudent(
-        selectedQuestionType,
-        questionArr,
-        student.id,
-        date,
-        messageText
-      );
-      router.push(`/teacher/mystudent?id=${student.id}`);
+      if (level) {
+        await createTaskToStudent(
+          level.name,
+          selectedQuestionType,
+          questionArr,
+          student.id,
+          date,
+          messageText
+        );
+        router.push(`/teacher/mystudent?id=${student.id}`);
+      }
     } catch (error) {
       console.error("לא הצלחנו לשלוח את המשימה לסטודנט");
     } finally {

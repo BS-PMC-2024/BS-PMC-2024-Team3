@@ -4,9 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GrammarRequest } from "@/lib/openai";
 import { studentSelfLearningAnswer } from "@/lib/ServerActions/ServerActions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HashLoader from "react-spinners/HashLoader";
 import Hint from "../Hint";
+import { ClockIcon } from "@heroicons/react/24/outline";
 
 export default function GrammarContent() {
   const [level, setLevel] = useState<string | null>(null);
@@ -22,6 +23,7 @@ export default function GrammarContent() {
   const [Error, setError] = useState<string | null>(null);
   const [hintText, setHintText] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [seconds, setSeconds] = useState(0);
   const Levels = [
     { name: "Easy", label: "Easy" },
     { name: "Medium", label: "Medium" },
@@ -50,6 +52,7 @@ export default function GrammarContent() {
     if (userAnswer.trim().toLowerCase() === response.correct.toLowerCase()) {
       setAnswer({ hasAnswered: true, isCorrect: true });
       await studentSelfLearningAnswer(
+        level,
         "grammar",
         response.mistake,
         response.correct,
@@ -58,6 +61,7 @@ export default function GrammarContent() {
     } else {
       setAnswer({ hasAnswered: true, isCorrect: false });
       await studentSelfLearningAnswer(
+        level,
         "grammar",
         response.mistake,
         response.correct,
@@ -66,7 +70,32 @@ export default function GrammarContent() {
     }
   };
 
+  useEffect(() => {
+    let timer: string | number | NodeJS.Timeout | undefined;
+    if (!isLoading && !Error) {
+      timer = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds + 1);
+      }, 1000);
+    } else {
+      clearInterval(timer);
+      setSeconds(0);
+    }
+    return () => clearInterval(timer);
+  }, [isLoading, Error]);
+
+  const formatTime = (totalSeconds: number) => {
+    const hours = Math.floor(totalSeconds / 3600)
+      .toString()
+      .padStart(2, "0");
+    const minutes = Math.floor((totalSeconds % 3600) / 60)
+      .toString()
+      .padStart(2, "0");
+    const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+  };
+
   const handleNextQuestion = () => {
+    setSeconds(0);
     setIsLoading(true);
     setUserAnswer("");
     setAnswer({ hasAnswered: false, isCorrect: false });
@@ -109,16 +138,19 @@ export default function GrammarContent() {
               <>
                 {!Error ? (
                   <div className="flex flex-col m-1 sm:m-2 mb-4">
-                    <div className="flex justify-between">
+                    {!answer.hasAnswered && (
+                      <Label className="flex justify-center items-center space-x-1 text-lg md:text-2xl text-lightRed">
+                        {formatTime(seconds)}
+                        <ClockIcon className="h-5 md:h-7 w-5 md:w-7 ml-2" />
+                      </Label>
+                    )}
+                    <div className="flex justify-between mb-1">
                       <div>
                         <div className="text-base sm:text-xl text-black">
                           {response.mistake}
                         </div>
                         {hintText ? (
-                          <Label
-                            className=" text-darkRed font-medium"
-                            dir="rtl"
-                          >
+                          <Label className="text-darkRed font-medium" dir="rtl">
                             <br />
                             {hintText}
                           </Label>
@@ -158,11 +190,22 @@ export default function GrammarContent() {
                           placeholder="Type your answer here..."
                         />
                         {answer.isCorrect ? (
-                          <div
-                            className="text-lg sm:text-2xl text-green-400 font-semibold text-center py-2"
-                            dir="rtl"
-                          >
-                            צודק, תשובה נכונה ✓
+                          <div className="flex flex-col">
+                            <div
+                              className="text-lg sm:text-2xl animate-bounce text-green-400 font-semibold text-center pt-3 pb-2"
+                              dir="rtl"
+                            >
+                              צודק, תשובה נכונה ✓
+                            </div>
+                            <div
+                              className="text-lg sm:text-2xl text-mediumBeige text-center py-1"
+                              dir="rtl"
+                            >
+                              התשובה הנכונה היא :
+                            </div>
+                            <div className="text-black text-lg sm:text-2xl text-center">
+                              {response.correct}
+                            </div>
                           </div>
                         ) : (
                           <div className="flex flex-col">
