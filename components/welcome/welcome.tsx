@@ -27,12 +27,12 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ name }) => {
 
   return (
     <div className="flex flex-col sm:flex-row justify-center items-center px-2 w-full">
-      <div className="relative w-1/2 lg:w-2/5 2xl:w-1/4 animate-pingSmall">
+      <div className="relative w-1/2 md:w-1/3 2xl:w-1/4 animate-pingSmall">
         <Zoom>
           <Image
             src={brain}
             alt={"brainAI"}
-            className="rounded-full mx-4"
+            className="rounded-full sm:ml-2 md:ml-8 sm:mr-8 lg:mr-2"
             layout="responsive"
             width={300}
             height={300}
