@@ -5,7 +5,7 @@ const Navbarcontent = () => {
   return (
     <>
       <div className="flex items-center">
-        <div className="md:flex flex-row items-center space-x-1">
+        <div className="md:flex flex-row items-center my-1">
           <LogoButton />
         </div>
       </div>
