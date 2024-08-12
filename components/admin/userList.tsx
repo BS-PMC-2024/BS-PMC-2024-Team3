@@ -6,10 +6,13 @@ import { useRouter } from "next/navigation";
 interface User {
   id: string;
   name: string | null;
+  email?: string | null;
+  role?: string | null;
 }
 
 interface UserListProps {
   users: User[];
+  contact?: boolean;
   onApprove?: (id: string) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
   searchTerm: string;
@@ -17,6 +20,7 @@ interface UserListProps {
 
 const UserList: React.FC<UserListProps> = ({
   users,
+  contact,
   onApprove,
   onDelete,
   searchTerm,
@@ -24,6 +28,17 @@ const UserList: React.FC<UserListProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [userList, setUserList] = useState(users);
   const router = useRouter();
+
+  const TranslateRole = (role: string) => {
+    switch (role) {
+      case "STUDENT":
+        return "תלמיד";
+      case "TEACHER":
+        return "מורה";
+      default:
+        return "תלמיד";
+    }
+  };
 
   const handleAction = async (
     action: (id: string) => Promise<void>,
@@ -48,7 +63,11 @@ const UserList: React.FC<UserListProps> = ({
       ) : (
         <div className="flex flex-col space-y-4">
           {userList
-            .filter((user) => user.name && user.name.includes(searchTerm))
+            .filter(
+              (user) =>
+                (user.name && user.name.includes(searchTerm)) ||
+                (user.role && TranslateRole(user.role).includes(searchTerm))
+            )
             .map((user) => (
               <div
                 key={user.id}
@@ -73,9 +92,22 @@ const UserList: React.FC<UserListProps> = ({
                       אישור
                     </Button>
                   )}
+                  {contact && (
+                    <Button
+                      variant={"outline"}
+                      className="text-white border-transparent bg-mediumBeige hover:bg-darkBeige text-xs md:text-base"
+                    >
+                      <a href={`mailto:${user.email}`}>צור קשר</a>
+                    </Button>
+                  )}
                 </div>
-                <h3 className="text-base md:text-lg text-black">
-                  {user.name || "Unnamed Teacher"}
+                <h3 className="text-base md:text-lg text-black" dir="rtl">
+                  {user.name || "ללא שם"} -{" "}
+                  <span className="text-lightRed font-semibold">
+                    {user.role
+                      ? TranslateRole(user.role)
+                      : TranslateRole("STUDENT")}
+                  </span>
                 </h3>
               </div>
             ))}
