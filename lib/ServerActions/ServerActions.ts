@@ -356,6 +356,7 @@ export const getStudentData = async (id: string) => {
     const student = await db.student.findUnique({
       where: { id },
       include: {
+        teacher: { select: { name: true, image: true } },
         answers: { include: { question: true } },
         tasks: { include: { questions: true } },
         user: { select: { email: true } },
@@ -559,5 +560,33 @@ export const updateGrade = async (questionId: string, userId: string) => {
     });
   } catch (error) {
     console.error("Error updating grade", error);
+  }
+};
+
+export const getAllStudentsByAdmin = async () => {
+  try {
+    const Students = await db.student.findMany({
+      include: {
+        answers: {
+          include: {
+            question: {
+              select: {
+                type: true,
+                level: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    const allStudents = Students || [];
+    const combinedAnswers = Students.reduce((acc: StudentAnswer[], student) => {
+      acc.push(...student.answers);
+      return acc;
+    }, []);
+    return { allStudents, combinedAnswers };
+  } catch (error) {
+    console.error("Error adding or updating content review in DB", error);
+    return { allStudents: [], combinedAnswers: [] };
   }
 };
