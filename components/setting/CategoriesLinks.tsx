@@ -7,7 +7,7 @@ interface CategoriesLinksProps {
   isSidebarOpen: boolean;
   categoryChosen: string;
   handleChosen: (chosenName: string) => void;
-  userRole: "student" | "teacher";
+  userRole: "student" | "teacher" | "admin";
 }
 
 const CategoriesLinks: React.FC<CategoriesLinksProps> = ({
@@ -33,6 +33,8 @@ const CategoriesLinks: React.FC<CategoriesLinksProps> = ({
           { name: "profile", label: "פרופיל", icon: UserCircleIcon },
           { name: "contentRating", label: "דירוג תוכן", icon: ChartBarIcon },
         ];
+      case "admin":
+        return [{ name: "profile", label: "פרופיל", icon: UserCircleIcon }];
       default:
         return [];
     }

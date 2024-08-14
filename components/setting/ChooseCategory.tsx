@@ -10,7 +10,7 @@ interface ChooseCategoryProps {
   session: Session;
   teacher?: TeacherWithScore | null | undefined;
   Content?: ContentType | null | undefined;
-  userRole: "student" | "teacher";
+  userRole: "student" | "teacher" | "admin";
 }
 
 interface TeacherWithScore {

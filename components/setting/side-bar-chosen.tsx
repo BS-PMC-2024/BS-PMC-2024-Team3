@@ -7,7 +7,7 @@ import CategoriesLinks from "./CategoriesLinks";
 interface SideBarChooseProps {
   categoryChosen: string;
   handleChosen: (chosenName: string) => void;
-  userRole: "student" | "teacher";
+  userRole: "student" | "teacher" | "admin";
 }
 
 const SideBarChoose: React.FC<SideBarChooseProps> = ({

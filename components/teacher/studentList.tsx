@@ -5,11 +5,13 @@ import UserCard from "../user/userCard";
 interface StudentListProps {
   allStudents: Student[];
   searchTerm: string;
+  AdminRole?: boolean;
 }
 
 const StudentList: React.FC<StudentListProps> = ({
   allStudents,
   searchTerm,
+  AdminRole,
 }) => {
   return (
     <div className="my-4">
@@ -34,9 +36,21 @@ const StudentList: React.FC<StudentListProps> = ({
                   <div key={student.id}>
                     {student.name && (
                       <div className="flex flex-col items-center m-2 hover:scale-[80%] scale-75">
-                        <Link href={`/teacher/mystudent?id=${student.id}`}>
-                          <UserCard name={student.name} image={student.image} />
-                        </Link>
+                        {!AdminRole ? (
+                          <Link href={`/teacher/mystudent?id=${student.id}`}>
+                            <UserCard
+                              name={student.name}
+                              image={student.image}
+                            />
+                          </Link>
+                        ) : (
+                          <Link href={`/admin/student?id=${student.id}`}>
+                            <UserCard
+                              name={student.name}
+                              image={student.image}
+                            />
+                          </Link>
+                        )}
                       </div>
                     )}
                   </div>

@@ -8,9 +8,13 @@ import StudentList from "./studentList";
 
 interface StudentChoseProps {
   allStudents: Student[];
+  AdminRole?: boolean;
 }
 
-const StudentChoose: React.FC<StudentChoseProps> = ({ allStudents }) => {
+const StudentChoose: React.FC<StudentChoseProps> = ({
+  allStudents,
+  AdminRole,
+}) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -49,7 +53,11 @@ const StudentChoose: React.FC<StudentChoseProps> = ({ allStudents }) => {
         ) : (
           <>
             {allStudents && (
-              <StudentList allStudents={allStudents} searchTerm={searchTerm} />
+              <StudentList
+                allStudents={allStudents}
+                searchTerm={searchTerm}
+                AdminRole={AdminRole}
+              />
             )}
           </>
         )}
