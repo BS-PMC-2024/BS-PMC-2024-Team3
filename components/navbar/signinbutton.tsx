@@ -64,7 +64,7 @@ const SigninButton: React.FC<SigninButtonProps> = ({ session }) => {
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="shadow-lg rounded-lg bg-lightBeige"
+        className="shadow-lg rounded-lg bg-lightBeige z-[1000]"
         onCloseAutoFocus={(e) => e.preventDefault()}
       >
         <DropdownMenuLabel className="text-lightRed text-center">
