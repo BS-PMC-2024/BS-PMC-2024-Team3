@@ -24,6 +24,16 @@ export const NumberOfTeachersWaitingApproval = async () => {
     console.error("Error Fetching All Teachers - ", error);
   }
 };
+export const NumberOfTaskWaitingApproval = async () => {
+  try {
+    const number = await db.teacherTask.findMany({
+      where: { approvedByAdmin: false },
+    });
+    return number.length;
+  } catch (error) {
+    console.error("Error Fetching All Teachers - ", error);
+  }
+};
 
 export const getTeachersWaitingApproval = async () => {
   try {
@@ -32,6 +42,18 @@ export const getTeachersWaitingApproval = async () => {
       select: { id: true, name: true },
     });
     return Teachers;
+  } catch (error) {
+    console.error("Error Fetching All Teachers - ", error);
+  }
+};
+
+export const getTasksWaitingApproval = async () => {
+  try {
+    const Tasks = await db.teacherTask.findMany({
+      where: { approvedByAdmin: false },
+      include: { questions: true, teacher: { select: { name: true } } },
+    });
+    return Tasks;
   } catch (error) {
     console.error("Error Fetching All Teachers - ", error);
   }
@@ -462,7 +484,7 @@ export const getAllTaskByStudentID = async () => {
   }
   try {
     const tasks = await db.teacherTask.findMany({
-      where: { student: { userId: session.user.id } },
+      where: { student: { userId: session.user.id }, approvedByAdmin: true },
       include: {
         questions: {
           include: {
@@ -588,5 +610,43 @@ export const getAllStudentsByAdmin = async () => {
   } catch (error) {
     console.error("Error adding or updating content review in DB", error);
     return { allStudents: [], combinedAnswers: [] };
+  }
+};
+
+export const DeleteTask = async (id: number) => {
+  try {
+    await db.teacherTask.delete({
+      where: { id },
+    });
+  } catch (error) {
+    console.error("Error Fetching All Teachers - ", error);
+  }
+};
+
+export const ApproveTask = async (id: number) => {
+  try {
+    await db.teacherTask.update({
+      where: { id },
+      data: { approvedByAdmin: true },
+    });
+  } catch (error) {
+    console.error("Error Fetching All Teachers - ", error);
+  }
+};
+
+export const getTeachersReviws = async () => {
+  try {
+    const Teachers = await db.user.findMany({
+      where: { role: "TEACHER" },
+      select: {
+        id: true,
+        name: true,
+        image: true,
+        teacher: { select: { rating: true } },
+      },
+    });
+    return Teachers;
+  } catch (error) {
+    console.error("Error Fetching All Teachers - ", error);
   }
 };
