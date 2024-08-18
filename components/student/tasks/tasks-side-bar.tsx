@@ -31,13 +31,12 @@ const TaskSideBar: React.FC<TaskSideBarProps> = ({
   handleChooesn,
   flagAnswer,
 }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     router.refresh();
   }, [flagAnswer]);
-
   const toggleSidebar = () => {
     setIsSidebarOpen((prevState) => !prevState);
   };

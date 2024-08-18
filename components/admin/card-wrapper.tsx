@@ -21,7 +21,7 @@ export const CardWrapper = ({
     <Zoom>
       <Link href={urlPath} passHref>
         <div className="relative transform transition-transform duration-300 hover:scale-105">
-          {badgeContent && (
+          {badgeContent !== undefined && badgeContent > 0 && (
             <div className="absolute top-0 left-0 transform -translate-y-1/2 translate-x-1/2 bg-mediumBeige border border-darkRed rounded-full px-3 py-1 text-darkRed text-base z-[100]">
               {badgeContent}
             </div>
