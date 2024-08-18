@@ -59,6 +59,7 @@ export function TaskCreator({ student }: TaskCreatorProps) {
           messageText
         );
         router.push(`/teacher/mystudent?id=${student.id}`);
+        router.refresh();
       }
     } catch (error) {
       console.error("לא הצלחנו לשלוח את המשימה לסטודנט");
@@ -95,7 +96,7 @@ export function TaskCreator({ student }: TaskCreatorProps) {
                   >
                     אנא בחר את הרמה של המשימה
                   </div>
-                  <div className="flex flex-col sm:flex-row" dir="rtl">
+                  <div className="flex flex-wrap" dir="rtl">
                     {Levels.map((levelItem) => (
                       <Button
                         key={levelItem.label}
@@ -117,7 +118,7 @@ export function TaskCreator({ student }: TaskCreatorProps) {
                   >
                     אנא בחר את סוג השאלה
                   </div>
-                  <div className="flex flex-col sm:flex-row" dir="rtl">
+                  <div className="flex flex-wrap" dir="rtl">
                     {QuestionType.map((qType) => (
                       <Button
                         key={qType.label}
@@ -159,7 +160,7 @@ export function TaskCreator({ student }: TaskCreatorProps) {
                       שאלה נוכחית כרגע - {currentPage}
                     </div>
                   </div>
-                  <div className="flex flex-col flex-grow justify-center items-center">
+                  <div className="flex flex-col flex-grow justify-center items-center mt-2">
                     <QuestionComponent
                       key={currentPage}
                       questionArr={questionArr}
