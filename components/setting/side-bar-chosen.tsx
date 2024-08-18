@@ -15,7 +15,7 @@ const SideBarChoose: React.FC<SideBarChooseProps> = ({
   handleChosen,
   userRole,
 }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prevState) => !prevState);

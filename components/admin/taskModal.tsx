@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 interface ExtendedTeacherTask extends TeacherTask {
   questions: Question[];
   teacher: { name: string | null };
+  student: { name: string | null };
 }
 
 interface TaskModalProps {
@@ -40,7 +41,7 @@ const TaskModal: React.FC<TaskModalProps> = ({
 }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-mediumBeige">
-      <div className="relative border bg-lightBeige rounded-lg p-8 w-11/12 max-w-3xl max-h-screen overflow-y-auto shadow-2xl">
+      <div className="relative border bg-lightBeige rounded-lg px-1 py-8 md:p-8 w-11/12 max-w-3xl max-h-screen overflow-y-auto shadow-2xl">
         <button
           onClick={handleCloseModal}
           className="absolute top-2 right-2 text-lightRed hover:text-darkRed hover:scale-110"
@@ -64,14 +65,18 @@ const TaskModal: React.FC<TaskModalProps> = ({
               {new Date(Task.date).toLocaleDateString("he-IL") || "אין תאריך"}
             </p>
           </div>
-          <div className="flex justify-between mx-1">
-            <p className="text-sm md:text-base" dir="rtl">
-              <span className="text-lightRed">הודעה לתלמיד: </span>{" "}
-              {Task.messageText || "אין הודעה"}
-            </p>
+          <div className="flex flex-col spacep-y-1 mx-1">
             <p className="text-sm md:text-base" dir="rtl">
               <span className="text-lightRed">רמה: </span>
               {TranslateLevel(Task.level)}
+            </p>
+            <p className="text-sm md:text-base" dir="rtl">
+              <span className="text-lightRed">שם התלמיד: </span>{" "}
+              {Task.student.name || "אין שם"}
+            </p>
+            <p className="text-sm md:text-base" dir="rtl">
+              <span className="text-lightRed">הודעה לתלמיד: </span>{" "}
+              {Task.messageText || "אין הודעה"}
             </p>
           </div>
         </div>
@@ -82,7 +87,7 @@ const TaskModal: React.FC<TaskModalProps> = ({
           {Task.questions.map((question, index) => (
             <div key={question.id} className="flex mt-2 text-lightRed">
               <p className="flex items-center justify-center w-5 h-5 rounded-full border-x border-black">
-                {index}
+                {index + 1}
               </p>
               <div className="mr-4">
                 <p className="text-sm">

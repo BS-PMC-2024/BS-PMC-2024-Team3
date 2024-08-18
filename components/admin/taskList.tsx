@@ -9,6 +9,7 @@ import TaskModal from "./taskModal";
 interface ExtendedTeacherTask extends TeacherTask {
   questions: Question[];
   teacher: { name: string | null };
+  student: { name: string | null };
 }
 
 interface TaskListProps {
@@ -53,13 +54,14 @@ const TaskList: React.FC<TaskListProps> = ({ Tasks, onApprove, onDelete }) => {
     action: (id: number) => Promise<void>,
     id: number
   ) => {
+    setIsTaskModalOpen(false);
     setIsLoading(true);
     await action(id);
     setTaskList((prevUsers) =>
       prevUsers.filter((task) => task.id.toString() !== id.toString())
     );
-    setIsLoading(false);
     router.refresh();
+    setIsLoading(false);
   };
 
   return (

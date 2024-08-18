@@ -100,10 +100,25 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({
         break;
       case "openQuestions":
         newQuestion.text = `Text: ${responseOpenQuestions.paragraph}, Question: ${responseOpenQuestions.question}`;
-        newQuestion.correctAnswer = responseOpenQuestions.answers[0];
-        newQuestion.falseAnswer1 = responseOpenQuestions.answers[1];
-        newQuestion.falseAnswer2 = responseOpenQuestions.answers[2];
-        newQuestion.falseAnswer3 = responseOpenQuestions.answers[3];
+        const correctIndex = responseOpenQuestions.correctAnswer;
+        newQuestion.correctAnswer = responseOpenQuestions.answers[correctIndex];
+        let falseAnswerIndex = 0;
+        for (let i = 0; i < responseOpenQuestions.answers.length; i++) {
+          if (i !== correctIndex) {
+            switch (falseAnswerIndex) {
+              case 0:
+                newQuestion.falseAnswer1 = responseOpenQuestions.answers[i];
+                break;
+              case 1:
+                newQuestion.falseAnswer2 = responseOpenQuestions.answers[i];
+                break;
+              case 2:
+                newQuestion.falseAnswer3 = responseOpenQuestions.answers[i];
+                break;
+            }
+            falseAnswerIndex++;
+          }
+        }
         break;
     }
     setQuestionArr([...questionArr, newQuestion]);

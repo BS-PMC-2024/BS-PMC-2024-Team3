@@ -1,10 +1,7 @@
 import TitleAndButton from "@/components/headerNav/TitleAndButton";
 import StudentStatistics from "@/components/student/studentStatistics";
 import StudentChoose from "@/components/teacher/StudentChoose";
-import { Button } from "@/components/ui/button";
 import { getAllStudentsByAdmin } from "@/lib/ServerActions/ServerActions";
-import ArrowUturnLeftIcon from "@heroicons/react/24/outline/ArrowUturnLeftIcon";
-import Link from "next/link";
 
 const TeacherApproval = async () => {
   const { allStudents, combinedAnswers } = await getAllStudentsByAdmin();

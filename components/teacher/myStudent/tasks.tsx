@@ -44,7 +44,7 @@ export async function Tasks({ id, tasks, name }: TasksProps) {
       </div>
       {tasks && (
         <div className="flex flex-col justify-center w-full md:w-2/3 mx-auto bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg shadow-xl backdrop-blur">
-          <Table dir="rtl">
+          <Table dir="rtl" className="text-xs sm:text-base">
             <TableCaption>המטלות האחרונות של {name}</TableCaption>
             <TableHeader dir="rtl">
               <TableRow dir="rtl">

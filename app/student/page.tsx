@@ -2,11 +2,16 @@ import { auth } from "@/auth";
 import StudentOptionsCards from "@/components/student/StudentOptionsCards";
 import StudentStatistics from "@/components/student/studentStatistics";
 import WelcomePage from "@/components/welcome/welcome";
-import { studentStats } from "@/lib/ServerActions/ServerActions";
+import {
+  NumberOfTaskToDo,
+  studentStats,
+} from "@/lib/ServerActions/ServerActions";
 
 const StudentPage = async () => {
   const session = await auth();
   const Stats = await studentStats(session?.user.id);
+  const numberOfTaskToDo = await NumberOfTaskToDo(session?.user.id);
+
   return (
     <>
       <div>
@@ -20,7 +25,7 @@ const StudentPage = async () => {
           <StudentStatistics studentStats={Stats} />
         </>
       )}
-      <StudentOptionsCards />
+      <StudentOptionsCards numberOfTaskToDo={numberOfTaskToDo} />
     </>
   );
 };

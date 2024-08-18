@@ -36,6 +36,34 @@ export const NumberOfTaskWaitingApproval = async () => {
   }
 };
 
+export const NumberOfTaskToDo = async (userId: string | undefined) => {
+  if (!userId) {
+    throw new Error("userId is required");
+  }
+  try {
+    const currentDate = new Date();
+    await db.teacherTask.updateMany({
+      where: {
+        grade: null,
+        date: { lt: currentDate },
+        approvedByAdmin: true,
+        student: {
+          userId: userId,
+        },
+      },
+      data: { grade: "0" },
+    });
+    const student = await db.student.findUnique({
+      where: { userId },
+      select: { tasks: { where: { grade: null, approvedByAdmin: true } } },
+    });
+
+    return student?.tasks.length;
+  } catch (error) {
+    console.error("Error Fetching All Teachers - ", error);
+  }
+};
+
 export const getTeachersWaitingApproval = async () => {
   try {
     const Teachers = await db.user.findMany({
@@ -52,7 +80,11 @@ export const getTasksWaitingApproval = async () => {
   try {
     const Tasks = await db.teacherTask.findMany({
       where: { approvedByAdmin: false },
-      include: { questions: true, teacher: { select: { name: true } } },
+      include: {
+        questions: true,
+        teacher: { select: { name: true } },
+        student: { select: { name: true } },
+      },
     });
     return Tasks;
   } catch (error) {

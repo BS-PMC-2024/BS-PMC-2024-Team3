@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar/navbar";
-import Footer from "@/components/footer/Footer";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 const inter = Inter({ subsets: ["latin"] });
 import { Assistant } from "next/font/google";
+import Footer from "@/components/footer/footerComponent";
 
 const font = Assistant({
   weight: "400",

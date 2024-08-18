@@ -26,7 +26,7 @@ export const CardWrapper = ({
               {badgeContent}
             </div>
           )}
-          <Card className="w-64 h-32 lg:w-72 lg:h-40 bg-mediumBeige my-2 mx-2 text-grayish shadow-md border-grayish hover:border-lightRed hover:text-lightRed hover:shadow-2xl hover:brightness-110">
+          <Card className="w-40 sm:w-64 h-32 lg:w-72 lg:h-40 bg-mediumBeige my-2 mx-2 text-grayish text-base sm:text-xl shadow-md border-grayish hover:border-lightRed hover:text-lightRed hover:shadow-2xl hover:brightness-110">
             <CardContent
               dir="rtl"
               className="flex justify-center items-center gap-2 h-full p-2"

@@ -11,7 +11,7 @@ const TeacherPage = async () => {
       <div>
         {session?.user.name && <WelcomePage name={session?.user.name} />}
       </div>
-      {combinedAnswers && (
+      {combinedAnswers.length > 0 && (
         <>
           <h2
             className="text-center text-xl md:text-2xl lg:text-3xl 2xl:text-4xl text-darkRed mb-1 sm:mb-2"
@@ -20,9 +20,9 @@ const TeacherPage = async () => {
             סטטיסטיקות של כלל הסטודנטים
           </h2>
           <StudentStatistics studentStats={combinedAnswers} />
-          <StudentChoose allStudents={allStudents} />
         </>
       )}
+      <StudentChoose allStudents={allStudents} />
     </>
   );
 };
