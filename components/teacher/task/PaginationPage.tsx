@@ -89,7 +89,7 @@ export function PaginationPage({
   return (
     <>
       <Separator className="my-2 bg-lightRed" />
-      <div className="flex justify-between w-full p-4">
+      <div className="flex flex-col sm:flex-row items-center justify-between w-full p-1 md:p-4">
         <div className="text-lightRed">
           <Pagination>
             <PaginationContent>
@@ -112,13 +112,13 @@ export function PaginationPage({
         <div>
           <Button
             variant={"outline"}
-            className="bg-lightBeige hover:bg-grayish/50 border border-lightRed rounded-md text-lightRed"
+            className="bg-lightBeige hover:bg-grayish/50 border border-lightRed rounded-md text-lightRed my-2 sm:my-0"
             onClick={() => SendQuestion()}
             dir="rtl"
           >
             שלח משימה
             <span>
-              <PaperAirplaneIcon className="h-6 w-6 rotate-180 mr-2" />
+              <PaperAirplaneIcon className="h-6 w-6 rotate-180 mr-2 hidden md:block" />
             </span>
           </Button>
         </div>

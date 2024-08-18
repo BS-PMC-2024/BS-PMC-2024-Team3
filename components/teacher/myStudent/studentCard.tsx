@@ -9,7 +9,7 @@ interface StudentCardProps {
 const StudentCard: React.FC<StudentCardProps> = ({ name, image, email }) => {
   return (
     <>
-      <div className="flex flex-row justify-center gap-4 items-center w-2/3 mx-auto bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg shadow-xl backdrop-blur">
+      <div className="flex flex-row justify-center gap-4 items-center w-5/6 md:w-2/3 mx-auto bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg shadow-xl backdrop-blur">
         <div
           className="absolute right-1 top-1 flex itesm-center text-sm md:text-base text-darkRed whitespace-nowrap"
           dir="rtl"

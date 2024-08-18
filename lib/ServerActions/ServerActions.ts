@@ -1,9 +1,10 @@
 "use server";
-import { TeacherNotApprovedRoute } from "@/routes";
 import { db } from "../db";
 import { auth } from "@/auth";
-import { Select } from "@tremor/react";
+import { AnswerQuestionnaireSchema, QuestionnaireSchema } from "@/schemas";
 import { Question, StudentAnswer } from "@prisma/client";
+import { connect } from "http2";
+import { z } from "zod";
 
 export const getAllTeachersNameAndID = async () => {
   try {
@@ -648,5 +649,113 @@ export const getTeachersReviws = async () => {
     return Teachers;
   } catch (error) {
     console.error("Error Fetching All Teachers - ", error);
+  }
+};
+
+export const saveQuestionnaire = async (
+  data: z.infer<typeof QuestionnaireSchema>
+) => {
+  const validation = QuestionnaireSchema.safeParse(data);
+  if (!validation.success) {
+    return { error: "חייב לרשום כותרת ותוכן!" };
+  }
+
+  const session = await auth();
+  if (!session || !session.user.id) {
+    return { error: "אין משתמש מחובר כעת" };
+  }
+  try {
+    const existingQuestionnaire = await db.questionnaire.findUnique({
+      where: { adminId: session.user.id },
+    });
+    let questionnaire;
+    if (existingQuestionnaire) {
+      questionnaire = await db.questionnaire.update({
+        where: { adminId: session.user.id },
+        data: {
+          title: validation.data.title,
+          content: validation.data.content,
+        },
+      });
+      return { success: "שאלון עודכן בהצלחה!", questionnaire };
+    } else {
+      questionnaire = await db.questionnaire.create({
+        data: {
+          title: validation.data.title,
+          content: validation.data.content,
+          adminId: session.user.id,
+        },
+      });
+      return { success: "שאלון נוצר בהצלחה!", questionnaire };
+    }
+  } catch (error) {
+    console.error("שמירת השאלון נכשלה - ", error);
+    return { error: "שמירת השאלון נכשלה" };
+  }
+};
+
+export const getQuestionnaire = async () => {
+  const session = await auth();
+  if (!session || !session.user.id) {
+    return;
+  }
+  try {
+    const existingQuestionnaire = await db.questionnaire.findFirst({
+      include: { answers: { include: { teacher: true } } },
+    });
+    return existingQuestionnaire;
+  } catch (error) {
+    console.error("Error Fetching Existing Questionnaire - ", error);
+  }
+};
+
+export const DeleteQuestionnaire = async () => {
+  const session = await auth();
+  if (!session || !session.user.id) {
+    return;
+  }
+  try {
+    await db.questionnaire.delete({
+      where: { adminId: session.user.id },
+    });
+  } catch (error) {
+    console.error("Error Fetching Existing Questionnaire - ", error);
+  }
+};
+
+export const saveAnswerQuestionnaire = async (
+  data: z.infer<typeof AnswerQuestionnaireSchema>,
+  questionnaireId: string
+) => {
+  const validation = AnswerQuestionnaireSchema.safeParse(data);
+  if (!validation.success) {
+    return { error: "חייב לרשום תשובה!" };
+  }
+
+  const session = await auth();
+  if (!session || !session.user.id) {
+    return { error: "אין משתמש מחובר כעת" };
+  }
+
+  const teacher = await db.teacher.findUnique({
+    where: { userId: session.user.id },
+  });
+
+  if (!teacher) {
+    return { error: "מורה לא נמצא עבור משתמש זה" };
+  }
+
+  try {
+    await db.questionnaireAnswer.create({
+      data: {
+        questionnaireId,
+        answer: validation.data.answer,
+        teacherId: teacher.id,
+      },
+    });
+    return { success: "תשובתך נשלחה בהצלחה!" };
+  } catch (error) {
+    console.error("שמירת השאלון נכשלה - ", error);
+    return { error: "שמירת השאלון נכשלה" };
   }
 };

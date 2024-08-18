@@ -32,3 +32,17 @@ export const RegisterSchema = z.object({
     message: "אנא הכנס שם תקין",
   }),
 });
+
+export const QuestionnaireSchema = z.object({
+  title: z.string().min(1, {
+    message: "אנא הכנס כותרת תקינה",
+  }),
+  content: z.string().min(1, {
+    message: "אנא כתוב תוכן על מנת להמשיך",
+  }),
+});
+export const AnswerQuestionnaireSchema = z.object({
+  answer: z.string().min(1, {
+    message: "אין להשאיר תשובה ריקה",
+  }),
+});
