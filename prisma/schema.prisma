@@ -31,6 +31,7 @@ model User {
   accounts      Account[]
   student       Student?
   teacher       Teacher?
+  createdQuestionnaires Questionnaire? 
   @@map("users")
 }
 
@@ -81,6 +82,7 @@ model Teacher {
   tasks     TeacherTask[]
   rating Rating[]
   contentRating ContentRating?
+  questionnaireAnswers QuestionnaireAnswer?
 }
 
 model Student {
@@ -151,4 +153,24 @@ model ContentRating {
   rating    Int
 
   @@unique([teacherId])
+}
+
+model Questionnaire {
+  id        String       @id @default(cuid())
+  title     String
+  content   String
+  createdAt DateTime     @default(now())
+  answers   QuestionnaireAnswer[]
+  admin     User        @relation(fields: [adminId], references: [id])
+  adminId   String  @unique
+}
+
+model QuestionnaireAnswer {
+  id             String        @id @default(cuid())
+  teacher        Teacher       @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId      String @unique
+  questionnaire  Questionnaire @relation(fields: [questionnaireId], references: [id], onDelete: Cascade)
+  questionnaireId String
+  answer         String?
+  answeredAt     DateTime @default(now())
 }

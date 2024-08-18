@@ -5,9 +5,10 @@ import ClipboardDocumentCheckIcon from "@heroicons/react/24/outline/ClipboardDoc
 import ChartPieIcon from "@heroicons/react/24/outline/ChartPieIcon";
 import QuestionMarkCircleIcon from "@heroicons/react/24/outline/QuestionMarkCircleIcon";
 import {
-  NumberOfTeachersWaitingApproval,
   NumberOfTaskWaitingApproval,
+  NumberOfTeachersWaitingApproval,
 } from "@/lib/ServerActions/ServerActions";
+import { StarIcon } from "@heroicons/react/24/outline";
 
 const adminOptionsCards = async () => {
   const TeachersWaiting = await NumberOfTeachersWaitingApproval();
@@ -41,6 +42,11 @@ const adminOptionsCards = async () => {
           Icon={<QuestionMarkCircleIcon width={30} height={30} />}
           headerTitle="שאלון למורים"
           urlPath="/admin/questionnaire"
+        />
+        <CardWrapper
+          Icon={<StarIcon width={30} height={30} />}
+          headerTitle="דירוג המורים"
+          urlPath="/admin/teacher-reviews"
         />
       </div>
     </div>

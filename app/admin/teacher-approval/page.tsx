@@ -1,9 +1,6 @@
 import TeachersToApprove from "@/components/admin/teachers-to-approve";
 import TitleAndButton from "@/components/headerNav/TitleAndButton";
-import { Button } from "@/components/ui/button";
 import { getTeachersWaitingApproval } from "@/lib/ServerActions/ServerActions";
-import ArrowUturnLeftIcon from "@heroicons/react/24/outline/ArrowUturnLeftIcon";
-import Link from "next/link";
 
 const TeacherApproval = async () => {
   const Teachers = await getTeachersWaitingApproval();

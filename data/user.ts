@@ -26,3 +26,33 @@ export const getStudentById = async (id: string) => {
     return null;
   }
 };
+
+export const checkQuestionnaire = async (userID: string) => {
+  try {
+    const questionnaire = await db.questionnaire.findFirst({
+      include: {
+        answers: {
+          where: {
+            teacher: { userId: userID },
+          },
+        },
+      },
+    });
+
+    if (!questionnaire) {
+      return { exists: false, answered: false, questionnaire: null };
+    }
+
+    const questionnaireAnswer =
+      questionnaire.answers.length > 0 ? questionnaire.answers[0] : null;
+
+    return {
+      exists: true,
+      answered: !!questionnaireAnswer,
+      questionnaire,
+      answer: questionnaireAnswer?.answer || null,
+    };
+  } catch (error) {
+    console.error("לא הצלחנו לייבא את השאלון", error);
+  }
+};
