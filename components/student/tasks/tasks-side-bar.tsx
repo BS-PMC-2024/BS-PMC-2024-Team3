@@ -12,6 +12,11 @@ import { useRouter } from "next/navigation";
 
 interface TeacherTask extends PrismaTeacherTask {
   questions: Question[];
+  teacher: TeacherType;
+}
+
+interface TeacherType {
+  name: string | null;
 }
 
 interface Question extends PrismaQuestion {

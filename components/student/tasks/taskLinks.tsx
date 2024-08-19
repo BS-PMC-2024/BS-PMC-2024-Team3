@@ -15,6 +15,11 @@ import { HoverCardMessege } from "./hoverMessege";
 
 interface TeacherTask extends PrismaTeacherTask {
   questions: Question[];
+  teacher: TeacherType;
+}
+
+interface TeacherType {
+  name: string | null;
 }
 
 interface Question extends PrismaQuestion {
@@ -80,7 +85,9 @@ const TaskLinks: React.FC<TaskLinksProps> = ({
                       <div className="space-y-2 text-center text-sm md:text-base">
                         <div className="flex justify-center">
                           <HoverCardMessege
-                            TeacherName={task.teacherId}
+                            TeacherName={
+                              task.teacher.name ? task.teacher.name : ""
+                            }
                             MessegeTxt={task.messageText}
                           />
                         </div>

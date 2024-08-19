@@ -524,6 +524,7 @@ export const getAllTaskByStudentID = async () => {
             studentAnswers: true,
           },
         },
+        teacher: { select: { name: true } },
       },
       orderBy: { id: "asc" },
     });
