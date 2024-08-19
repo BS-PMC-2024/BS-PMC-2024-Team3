@@ -61,7 +61,7 @@ const TaskModal: React.FC<TaskModalProps> = ({
               {Task.teacher?.name || "ללא שם"}
             </p>
             <p className="text-sm md:text-base" dir="rtl">
-              <span className="text-lightRed"> תאריך יצירה: </span>{" "}
+              <span className="text-lightRed"> מועד הגשה: </span>{" "}
               {new Date(Task.date).toLocaleDateString("he-IL") || "אין תאריך"}
             </p>
           </div>

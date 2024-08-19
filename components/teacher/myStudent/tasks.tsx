@@ -77,7 +77,7 @@ export async function Tasks({ id, tasks, name }: TasksProps) {
                   <TableCell className="font-medium">{index + 1}</TableCell>
                   <TableCell className="font-medium">{task.id}</TableCell>
                   <TableCell>
-                    {new Date(task.date).toLocaleDateString()}
+                    {new Date(task.date).toLocaleDateString("he-IL")}
                   </TableCell>
                   <TableCell>{task.messageText}</TableCell>
                   <TableCell>{task.grade ?? " - "}</TableCell>
