@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# FluentAI
 
-## Getting Started
+FluentAI is an interactive learning platform designed to improve English language skills among teenagers, leveraging artificial intelligence to personalize learning content and track student progress.
 
-First, run the development server:
+## Key Features
+- **Personalized Questions**: AI-driven generation of questions tailored to the student's level.
+- **Word Games**: Various tools to enhance learning through word games.
+- **Progress Tracking**: Allows students and teachers to monitor learning progress.
+- **Teacher Support**: Tools for teachers to generate personalized questions and track student performance.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Technologies Used
+- **Next.js**: A React framework for building modern web applications.
+- **Prisma**: A modern ORM for JavaScript and TypeScript to manage databases.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## System Requirements
+- Node.js 18.x or higher
+- A compatible database (PostgreSQL, MySQL, SQLite, etc.)
+- npm or yarn for package management
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Installation and Local Setup
+1. **Clone the Repository**:
+    ```bash
+    git clone https://github.com/BS-PMC-2024/BS-PMC-2024-Team3.git
+    cd BS-PMC-2024-Team3
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+2. **Install Dependencies**:
+    ```bash
+    npm install
+    ```
 
-## Learn More
+3. **Environment Variables**:
+    Create a `.env.local` file in the root directory of the project with the following content:
+    ```env
+    DATABASE_URL="your-database-url"
+    RESEND_API_KEY="your-resend-api-key"
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+4. **Set Up Prisma**:
+    Create the schema and migrations in your database:
+    ```bash
+    npx prisma migrate dev
+    npx prisma generate
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. **Run the Server**:
+    Start the development server:
+    ```bash
+    npm run dev
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+6. **Access the Application**:
+    Open the application in your browser at: `http://localhost:3000`
 
-## Deploy on Vercel
+## Testing
+- **Unit Tests**:
+    Run unit tests:
+    ```bash
+    npm test
+    ```
+    Test coverage includes 80% of each feature.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Integration Tests**:
+    - Test system login with a student user.
+    - Test generating statistics with database integration.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## CI/CD Pipeline
+The project is integrated with Jenkins for managing a CI/CD pipeline, which includes:
+- Code and coverage testing
+- Page load time measurement
+- Mean Time to Recovery (MTTR) calculation
+- System uptime checks
+
+## Future Requirements
+In future versions, we plan to develop an interactive educational game and a collaborative learning module.
+
+## Contribution
+We welcome contributions to the project. To contribute, please open a Pull Request with your changes.
+
+## License
+This project is licensed under the MIT License. For more details, see the [LICENSE](LICENSE) file.
