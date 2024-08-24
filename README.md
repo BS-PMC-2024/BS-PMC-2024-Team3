@@ -73,9 +73,3 @@ The project is integrated with Jenkins for managing a CI/CD pipeline, which incl
 
 ## Future Requirements
 In future versions, we plan to develop an interactive educational game and a collaborative learning module.
-
-## Contribution
-We welcome contributions to the project. To contribute, please open a Pull Request with your changes.
-
-## License
-This project is licensed under the MIT License. For more details, see the [LICENSE](LICENSE) file.
